@@ -5,8 +5,9 @@ go 1.13
 require (
 	github.com/ajg/form v1.5.1 // indirect
 	github.com/fasthttp-contrib/websocket v0.0.0-20160511215533-1f3b11f56072 // indirect
-	github.com/friendsofgo/errors v0.9.2 // indirect
+	github.com/friendsofgo/errors v0.9.2
 	github.com/go-sql-driver/mysql v1.4.1
+	github.com/gofrs/uuid v3.2.0+incompatible // indirect
 	github.com/google/go-querystring v1.0.0 // indirect
 	github.com/gorilla/securecookie v1.1.1
 	github.com/imkira/go-interpol v1.1.0 // indirect
@@ -31,7 +32,8 @@ require (
 	github.com/spf13/viper v1.5.0 // indirect
 	github.com/valyala/fasthttp v1.6.0 // indirect
 	github.com/volatiletech/inflect v0.0.0-20170731032912-e7201282ae8d // indirect
-	github.com/volatiletech/sqlboiler v3.6.1+incompatible // indirect
+	github.com/volatiletech/null v8.0.0+incompatible
+	github.com/volatiletech/sqlboiler v3.6.1+incompatible
 	github.com/xeipuuv/gojsonschema v1.2.0 // indirect
 	github.com/yalp/jsonpath v0.0.0-20180802001716-5cc68e5049a0 // indirect
 	github.com/yudai/gojsondiff v1.0.0 // indirect

@@ -16,6 +16,7 @@ func (c *PostController) Get() string {
 	return "hello"
 }
 func (c *PostController) GetCreate(ctx iris.Context) {
+	c.Model.InitData()
 	_, _ = ctx.JSON(map[string]string{"hello": "json"})
 }
 
@@ -30,7 +31,6 @@ func (c *PostController) PostCreate(ctx iris.Context) {
 	_ = c.Ctx.ReadJSON(&form)
 	//fmt.Println(form)
 	form.Content = html.EscapeString(form.Content)
-
 
 	_, _ = ctx.JSON(form)
 }

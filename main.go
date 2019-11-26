@@ -16,7 +16,7 @@ import (
 func main() {
 	app := iris.New()
 	app.Use(recover.New())
-	//app.Logger().SetLevel("debug")
+	app.Logger().SetLevel("debug")
 
 	tmpl := iris.Jet("./application/views", ".jet")
 	tmpl.Reload(true) // remove in production.
