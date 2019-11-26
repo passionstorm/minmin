@@ -1,0 +1,16 @@
+{{extends "../layouts/default_layout.jet"}}
+
+{{block body()}}
+    <div class="notes_wrapper">
+      <div class="home">
+        <div class="home_info">
+          <span>{{ posts }} Notes</span>
+          <a href="post/create" class="pri_btn">Create Post</a>
+        </div>
+
+        {{ if isset(posts) }}
+            {{ "nothing"}}
+        {{ end }}
+      </div>
+    </div>
+{{end}}

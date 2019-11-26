@@ -1,0 +1,25 @@
+{{extends "../layouts/default_layout.jet"}}
+
+{{block body()}}
+    <form action="./create" method="POST">
+        <div class="notes_wrapper">
+          <div class='edit'>
+            <div class="edit_info">
+              <span>Create Post</span>
+            </div>
+            <div class="eu_div">
+              <span class='edit_span'>Title</span>
+              <input name="title" type="text" class='e_username create_username' placeholder='Title..' autoComplete='false' autoFocus spellCheck='false' />
+            </div>
+            <div class="eb_div">
+              <span class='edit_span'>Content</span>
+              <textarea name="content" class="e_bio create_content" placeholder='Content..' spellCheck='false'></textarea>
+            </div>
+            <div class="eb_btns">
+                <button type="submit"> Create post</button>
+            </div>
+          </div>
+        </div>
+    </form>
+{{end}}
+

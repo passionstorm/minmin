@@ -1,0 +1,59 @@
+@import "../../node_modules/bootstrap-scss/bootstrap-grid";
+@import "../../node_modules/bootstrap-scss/mixins";
+@import "../../node_modules/bootstrap-scss/buttons";
+@import "../../node_modules/bootstrap-scss/card";
+@import "variables";
+@import "mixin";
+@import "main_sidebar";
+@import "button";
+@import "bulma";
+
+.card {
+  box-shadow: 0 0 1px rgba(0, 0, 0, .125), 0 1px 3px rgba(0, 0, 0, .2);
+  margin-bottom: 1rem;
+  position: relative;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: #fff;
+  background-clip: border-box;
+  border: 0 solid rgba(0, 0, 0, .125);
+  border-radius: .25rem;
+}
+
+.card-header {
+  padding: 0;
+  background-color: #e0e1e2;
+}
+
+.card-body {
+  padding: 5px 0 15px 0;
+}
+
+.icon i {
+  display: inline-flex;
+}
+
+.label {
+  display: inline-flex;
+}
+
+.icon.is-small svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+main {
+  padding: 15px 0.5rem;
+}
+
+.hide {
+  display: none;
+}
+
+a {
+  cursor: pointer;
+}
