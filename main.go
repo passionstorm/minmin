@@ -10,6 +10,7 @@ import (
 	"github.com/kataras/iris/v12/mvc"
 	"github.com/kataras/iris/v12/view"
 	R "minmin/app/controllers"
+	"minmin/app/models"
 	"reflect"
 )
 
@@ -27,9 +28,6 @@ func main() {
 		return reflect.ValueOf(base64.URLEncoding.EncodeToString(buffer.Bytes()))
 	})
 	app.RegisterView(tmpl)
-	app.OnErrorCode(iris.StatusNotFound, func(ctx iris.Context) {
-		_ = ctx.View("errors/404.jet")
-	})
 
 	app.Get("/", func(ctx iris.Context) { ctx.Redirect("/admin/login") })
 
@@ -54,11 +52,7 @@ func notFound() {
 }
 
 func apiRoute(app *mvc.Application) {
-	app.Party("/post").Handle(new(R.PostController))
+	app.Register(models.NewArticleLogic()).Party("/post").Handle(new(R.PostController))
 }
 
 // localstion/admin/...
-func adminRoute(app *mvc.Application) {
-	app.Handle(new(R.AdminController))
-	//app.Party("/post").Handle(new(R.PostController))
-}

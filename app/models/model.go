@@ -11,7 +11,7 @@ type BaseModel struct {
 
 var db *sql.DB
 
-func Init() {
+func init() {
 	var err error
 	db, err = sql.Open("mysql", "root:@tcp([localhost]:3306)/minmin?parseTime=true&loc=Asia%2FTokyo")
 	if err != nil {

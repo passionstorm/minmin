@@ -25,9 +25,9 @@ import (
 // Article is an object representing the database table.
 type Article struct {
 	ID          int         `boil:"id" json:"id" toml:"id" yaml:"id"`
-	Title       null.String `boil:"title" json:"title,omitempty" toml:"title" yaml:"title,omitempty"`
+	Title       string      `boil:"title" json:"title" toml:"title" yaml:"title"`
 	Desc        null.String `boil:"desc" json:"desc,omitempty" toml:"desc" yaml:"desc,omitempty"`
-	Content     null.String `boil:"content" json:"content,omitempty" toml:"content" yaml:"content,omitempty"`
+	Content     string      `boil:"content" json:"content" toml:"content" yaml:"content"`
 	Position    null.Int    `boil:"position" json:"position,omitempty" toml:"position" yaml:"position,omitempty"`
 	HeadLine    null.String `boil:"head_line" json:"head_line,omitempty" toml:"head_line" yaml:"head_line,omitempty"`
 	Keywords    null.String `boil:"keywords" json:"keywords,omitempty" toml:"keywords" yaml:"keywords,omitempty"`
@@ -35,8 +35,8 @@ type Article struct {
 	ImageS      null.String `boil:"image_s" json:"image_s,omitempty" toml:"image_s" yaml:"image_s,omitempty"`
 	ImageM      null.String `boil:"image_m" json:"image_m,omitempty" toml:"image_m" yaml:"image_m,omitempty"`
 	ImageL      null.String `boil:"image_l" json:"image_l,omitempty" toml:"image_l" yaml:"image_l,omitempty"`
-	CreatedAt   null.Time   `boil:"created_at" json:"created_at,omitempty" toml:"created_at" yaml:"created_at,omitempty"`
-	UpdatedAt   null.Time   `boil:"updated_at" json:"updated_at,omitempty" toml:"updated_at" yaml:"updated_at,omitempty"`
+	CreatedAt   time.Time   `boil:"created_at" json:"created_at" toml:"created_at" yaml:"created_at"`
+	UpdatedAt   time.Time   `boil:"updated_at" json:"updated_at" toml:"updated_at" yaml:"updated_at"`
 	PublishedAt null.Time   `boil:"published_at" json:"published_at,omitempty" toml:"published_at" yaml:"published_at,omitempty"`
 
 	R *articleR `boil:"-" json:"-" toml:"-" yaml:"-"`
@@ -93,6 +93,22 @@ func (w whereHelperint) IN(slice []int) qm.QueryMod {
 	return qm.WhereIn(fmt.Sprintf("%s IN ?", w.field), values...)
 }
 
+type whereHelperstring struct{ field string }
+
+func (w whereHelperstring) EQ(x string) qm.QueryMod  { return qmhelper.Where(w.field, qmhelper.EQ, x) }
+func (w whereHelperstring) NEQ(x string) qm.QueryMod { return qmhelper.Where(w.field, qmhelper.NEQ, x) }
+func (w whereHelperstring) LT(x string) qm.QueryMod  { return qmhelper.Where(w.field, qmhelper.LT, x) }
+func (w whereHelperstring) LTE(x string) qm.QueryMod { return qmhelper.Where(w.field, qmhelper.LTE, x) }
+func (w whereHelperstring) GT(x string) qm.QueryMod  { return qmhelper.Where(w.field, qmhelper.GT, x) }
+func (w whereHelperstring) GTE(x string) qm.QueryMod { return qmhelper.Where(w.field, qmhelper.GTE, x) }
+func (w whereHelperstring) IN(slice []string) qm.QueryMod {
+	values := make([]interface{}, 0, len(slice))
+	for _, value := range slice {
+		values = append(values, value)
+	}
+	return qm.WhereIn(fmt.Sprintf("%s IN ?", w.field), values...)
+}
+
 type whereHelpernull_String struct{ field string }
 
 func (w whereHelpernull_String) EQ(x null.String) qm.QueryMod {
@@ -139,6 +155,27 @@ func (w whereHelpernull_Int) GTE(x null.Int) qm.QueryMod {
 	return qmhelper.Where(w.field, qmhelper.GTE, x)
 }
 
+type whereHelpertime_Time struct{ field string }
+
+func (w whereHelpertime_Time) EQ(x time.Time) qm.QueryMod {
+	return qmhelper.Where(w.field, qmhelper.EQ, x)
+}
+func (w whereHelpertime_Time) NEQ(x time.Time) qm.QueryMod {
+	return qmhelper.Where(w.field, qmhelper.NEQ, x)
+}
+func (w whereHelpertime_Time) LT(x time.Time) qm.QueryMod {
+	return qmhelper.Where(w.field, qmhelper.LT, x)
+}
+func (w whereHelpertime_Time) LTE(x time.Time) qm.QueryMod {
+	return qmhelper.Where(w.field, qmhelper.LTE, x)
+}
+func (w whereHelpertime_Time) GT(x time.Time) qm.QueryMod {
+	return qmhelper.Where(w.field, qmhelper.GT, x)
+}
+func (w whereHelpertime_Time) GTE(x time.Time) qm.QueryMod {
+	return qmhelper.Where(w.field, qmhelper.GTE, x)
+}
+
 type whereHelpernull_Time struct{ field string }
 
 func (w whereHelpernull_Time) EQ(x null.Time) qm.QueryMod {
@@ -164,9 +201,9 @@ func (w whereHelpernull_Time) GTE(x null.Time) qm.QueryMod {
 
 var ArticleWhere = struct {
 	ID          whereHelperint
-	Title       whereHelpernull_String
+	Title       whereHelperstring
 	Desc        whereHelpernull_String
-	Content     whereHelpernull_String
+	Content     whereHelperstring
 	Position    whereHelpernull_Int
 	HeadLine    whereHelpernull_String
 	Keywords    whereHelpernull_String
@@ -174,14 +211,14 @@ var ArticleWhere = struct {
 	ImageS      whereHelpernull_String
 	ImageM      whereHelpernull_String
 	ImageL      whereHelpernull_String
-	CreatedAt   whereHelpernull_Time
-	UpdatedAt   whereHelpernull_Time
+	CreatedAt   whereHelpertime_Time
+	UpdatedAt   whereHelpertime_Time
 	PublishedAt whereHelpernull_Time
 }{
 	ID:          whereHelperint{field: "`articles`.`id`"},
-	Title:       whereHelpernull_String{field: "`articles`.`title`"},
+	Title:       whereHelperstring{field: "`articles`.`title`"},
 	Desc:        whereHelpernull_String{field: "`articles`.`desc`"},
-	Content:     whereHelpernull_String{field: "`articles`.`content`"},
+	Content:     whereHelperstring{field: "`articles`.`content`"},
 	Position:    whereHelpernull_Int{field: "`articles`.`position`"},
 	HeadLine:    whereHelpernull_String{field: "`articles`.`head_line`"},
 	Keywords:    whereHelpernull_String{field: "`articles`.`keywords`"},
@@ -189,8 +226,8 @@ var ArticleWhere = struct {
 	ImageS:      whereHelpernull_String{field: "`articles`.`image_s`"},
 	ImageM:      whereHelpernull_String{field: "`articles`.`image_m`"},
 	ImageL:      whereHelpernull_String{field: "`articles`.`image_l`"},
-	CreatedAt:   whereHelpernull_Time{field: "`articles`.`created_at`"},
-	UpdatedAt:   whereHelpernull_Time{field: "`articles`.`updated_at`"},
+	CreatedAt:   whereHelpertime_Time{field: "`articles`.`created_at`"},
+	UpdatedAt:   whereHelpertime_Time{field: "`articles`.`updated_at`"},
 	PublishedAt: whereHelpernull_Time{field: "`articles`.`published_at`"},
 }
 
@@ -535,11 +572,11 @@ func (o *Article) Insert(ctx context.Context, exec boil.ContextExecutor, columns
 	if !boil.TimestampsAreSkipped(ctx) {
 		currTime := time.Now().In(boil.GetLocation())
 
-		if queries.MustTime(o.CreatedAt).IsZero() {
-			queries.SetScanner(&o.CreatedAt, currTime)
+		if o.CreatedAt.IsZero() {
+			o.CreatedAt = currTime
 		}
-		if queries.MustTime(o.UpdatedAt).IsZero() {
-			queries.SetScanner(&o.UpdatedAt, currTime)
+		if o.UpdatedAt.IsZero() {
+			o.UpdatedAt = currTime
 		}
 	}
 
@@ -647,7 +684,7 @@ func (o *Article) Update(ctx context.Context, exec boil.ContextExecutor, columns
 	if !boil.TimestampsAreSkipped(ctx) {
 		currTime := time.Now().In(boil.GetLocation())
 
-		queries.SetScanner(&o.UpdatedAt, currTime)
+		o.UpdatedAt = currTime
 	}
 
 	var err error
@@ -787,10 +824,10 @@ func (o *Article) Upsert(ctx context.Context, exec boil.ContextExecutor, updateC
 	if !boil.TimestampsAreSkipped(ctx) {
 		currTime := time.Now().In(boil.GetLocation())
 
-		if queries.MustTime(o.CreatedAt).IsZero() {
-			queries.SetScanner(&o.CreatedAt, currTime)
+		if o.CreatedAt.IsZero() {
+			o.CreatedAt = currTime
 		}
-		queries.SetScanner(&o.UpdatedAt, currTime)
+		o.UpdatedAt = currTime
 	}
 
 	if err := o.doBeforeUpsertHooks(ctx, exec); err != nil {

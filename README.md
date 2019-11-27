@@ -1,6 +1,9 @@
 # minmin
 
-###Install library auto reload for golang
+### Install library auto reload for golang
 `go get -u github.com/kataras/rizla`
-###Run auto reload for golang
+### Run auto reload for golang
 `rizla -delay=1s main.go`
+
+### Generate orm model
+`sqlboiler mysql`
