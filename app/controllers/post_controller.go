@@ -15,12 +15,11 @@ func (c *PostController) Get() string {
 	return "hello"
 }
 func (c *PostController) GetCreate(ctx iris.Context, logic models.ArticleLogic) {
-	_, _ = ctx.JSON(map[string]string{"hello": logic.GetAll()})
+	_, _ = ctx.JSON(logic.GetAll())
 }
 
 func (c *PostController) PostCreate(ctx iris.Context, logic models.ArticleLogic) {
 	var formData *models.PostForm
-	m := new(models.Article)
 	err := ctx.ReadJSON(&formData)
 	if err != nil {
 		_ = httputil.FailJSON(ctx, iris.StatusBadRequest, err, "Param is invalid")
@@ -33,5 +32,7 @@ func (c *PostController) PostCreate(ctx iris.Context, logic models.ArticleLogic)
 	}
 
 	ctx.StatusCode(iris.StatusCreated)
-	_, _ = ctx.JSON(m)
+	_, _ = ctx.JSON(map[string]interface{}{
+		"success": true,
+	})
 }

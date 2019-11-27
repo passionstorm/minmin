@@ -11,22 +11,23 @@ import (
 //https://developers.google.com/search/docs/data-types/article?hl=vi#amp
 type ArticleLogic interface {
 	Insert(ctx iris.Context, form *PostForm) error
-	GetAll() string
+	GetAll() models.ArticleSlice
 }
 
-type articleLogic struct {
-	e models.Article
-}
+type articleLogic struct{}
 
-func (m articleLogic) GetAll() string {
-	return "hello"
+func (articleLogic) GetAll() models.ArticleSlice {
+	rs, _ := models.Articles().All(context.Background(), db)
+
+	return rs
 }
 
 func (m articleLogic) Insert(ctx iris.Context, form *PostForm) error {
-	m.e.Title = form.Title
-	m.e.Content = html.EscapeString(form.Content)
+	e := new(models.Article)
+	e.Title = form.Title
+	e.Content = html.EscapeString(form.Content)
 
-	return m.e.Insert(context.Background(), db, boil.Infer())
+	return e.Insert(context.Background(), db, boil.Infer())
 }
 
 func NewArticleLogic() ArticleLogic {
