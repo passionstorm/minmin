@@ -3,36 +3,38 @@ package controllers
 import (
 	"github.com/kataras/iris/v12"
 	"github.com/kataras/iris/v12/_examples/tutorial/mongodb/httputil"
-	"minmin/app/models"
+	"minmin/app/logic"
 )
 
 type PostController struct {
-	baseController
+	ApiController
 }
 
-func (c *PostController) Get() string {
-
-	return "hello"
+func (c *PostController) GetEditBy(id int, ctx iris.Context, l logic.ArticleLogic) {
+	rs, err := l.FindById(id)
+	if err != nil {
+		_ = httputil.FailJSON(ctx, iris.StatusNotFound, err, "Param is invalid")
+		return
+	}
+	_, _ = ctx.JSON(&rs)
 }
-func (c *PostController) GetCreate(ctx iris.Context, logic models.ArticleLogic) {
-	_, _ = ctx.JSON(logic.GetAll())
+
+func (c *PostController) Get(ctx iris.Context, l logic.ArticleLogic) {
+	_, _ = ctx.JSON(l.GetAll())
 }
 
-func (c *PostController) PostCreate(ctx iris.Context, logic models.ArticleLogic) {
-	var formData *models.PostForm
+func (c *PostController) PostCreate(ctx iris.Context, db logic.ArticleLogic) {
+	var formData *logic.PostForm
 	err := ctx.ReadJSON(&formData)
 	if err != nil {
 		_ = httputil.FailJSON(ctx, iris.StatusBadRequest, err, "Param is invalid")
 		return
 	}
-	err = logic.Insert(ctx, formData)
+	err = db.Insert(ctx, formData)
 	if err != nil {
 		httputil.InternalServerErrorJSON(ctx, err, "Server was unable to create")
 		return
 	}
 
-	ctx.StatusCode(iris.StatusCreated)
-	_, _ = ctx.JSON(map[string]interface{}{
-		"success": true,
-	})
+	c.Success(iris.StatusOK, nil)
 }

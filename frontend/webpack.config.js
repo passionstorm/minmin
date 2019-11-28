@@ -48,7 +48,7 @@ module.exports = {
     }),
   ],
   devServer: {
-    // clientLogLevel: 'silent',
+    clientLogLevel: 'silent',
     contentBase: resolve('.'),
     historyApiFallback: true,
     hot: true,

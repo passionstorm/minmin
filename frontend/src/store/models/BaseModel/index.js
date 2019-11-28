@@ -8,6 +8,10 @@ export class BaseModel extends Model {
     return {};
   }
 
+  static apiConfig = {
+    baseURL: 'http://localhost:9000/api',
+  }
+
   static fieldsKeys() {
     return Object.keys(omit(this.fields(), this.primaryKey));
   }

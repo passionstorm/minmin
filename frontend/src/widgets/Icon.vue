@@ -9,7 +9,7 @@
     'sm': 'is-small',
     'm': 'is-medium',
     'l': 'is-large',
-  }
+  };
   export default {
     name: 'icon',
     props: {
@@ -30,22 +30,22 @@
       styles() {
         return {
           color: this.color,
-        }
+        };
       },
       classes() {
         return [
           defaultSize[this.size],
-        ]
+        ];
       },
       loadIcon() {
-        return require(`../assets/images/icons/${this.name}.svg`)
-      }
+        return require(`../assets/images/icons/${this.name}.svg`);
+      },
     },
     created() {
       // console.log(this.loadIcon);
 
-    }
-  }
+    },
+  };
 </script>
 
 <style scoped>
@@ -55,5 +55,10 @@
   .icon svg {
     width: 100%;
     height: 100%;
+  }
+
+  .icon.is-large i svg {
+    width: 3rem;
+    height: 3rem;
   }
 </style>

@@ -1,8 +1,16 @@
 <template>
   <div>
-    <pre>
-        {{dataRes}}
-    </pre>
+    <div class="tags">
+            <span v-for="(file, index) in dropFiles"
+                  :key="index"
+                  class="tag is-primary" >
+                {{file.name}}
+                <button class="delete is-small"
+                        type="button"
+                        @click="deleteDropFile(index)">
+                </button>
+            </span>
+    </div>
     <ValidationObserver ref="form" tag="form" @submit.prevent="onSubmit" v-slot="{invalid}">
       <div class="d-flex bd-highlight mb-2">
         <div class="mr-auto p-2 bd-highlight">
@@ -39,6 +47,23 @@
 
           <field class="col-sm-10" label="Nội dung">
             <editor ref="editor" v-model="form.content" :height="400"/>
+          </field>
+
+          <field>
+            <upload v-model="dropFiles"
+                      drag-drop>
+              <section class="section">
+                <div class="content has-text-centered">
+                  <p>
+                    <icon
+                        name="cloud_upload"
+                        size="l">
+                    </icon>
+                  </p>
+                  <p>Drop your files here or click to upload</p>
+                </div>
+              </section>
+            </upload>
           </field>
         </div>
       </collapse>
@@ -83,7 +108,7 @@
 </template>
 
 <script>
-  import {Check, Collapse, Field, Icon, Modal, Pin, Taginput, VInput, VSelect} from '../../widgets';
+  import {Check, Collapse, Field, Icon, Modal, Pin, Taginput, VInput, VSelect, Upload} from '../../widgets';
   import PostModel from '../../store/models/PostModel';
   import SeoTagModel from '../../store/models/SeoTagModel';
 
@@ -93,8 +118,8 @@
     status: '1',
     seo: {},
     title: '', // 文章题目
-    body: '', // 文章内容
-    summary: '', // 文章摘要
+    content: '', // 文章内容
+    desc: '', // 文章摘要
     source_uri: '', // 文章外链
     image_uri: '', // 文章图片
     categories: [],
@@ -107,7 +132,7 @@
 
   export default {
     components: {
-      VInput, Field, Pin, VSelect, Modal, Check, ValidationObserver, Taginput, Collapse, Icon,
+      VInput, Field, Pin, VSelect, Modal, Check, ValidationObserver, Taginput, Collapse, Icon, Upload,
       editor: () => import('../../widgets/Editor'),
     },
     data() {
@@ -117,6 +142,7 @@
           post: {open: true},
           seo: {open: true},
         },
+        id: this.$route.params.id,
         dataRes: {},
         editedItem: {},
         listCategory: [
@@ -137,8 +163,14 @@
         check: {
           test: false,
         },
+        dropFiles: [],
         form: Object.assign({}, defaultForm),
       };
+    },
+    watch:{
+      dropFiles(val) {
+        console.log(val);
+      }
     },
     methods: {
       onTypeCategoryTag(text) {
@@ -156,10 +188,11 @@
         this.form = Object.assign({}, defaultForm);
         this.modal.reset = false;
       },
+
       async onSubmit() {
         // this.$refs.form.vahlidate();
         let res = await PostModel.api().post('post/create', this.form);
-        this.dataRes = res.response.data
+        this.dataRes = res.response.data;
         // this.reset();
       },
       async onAddSeoTag(text) {
@@ -180,9 +213,16 @@
     created() {
       // PostModel.api().fetch();
     },
-    async beforeMount() {
-      await SeoTagModel.$fetch();
-      this.listSeoTag = SeoTagModel.query().get();
+    async mounted() {
+      // await SeoTagModel.$fetch();
+      // this.listSeoTag = SeoTagModel.query().get();
+      if (this.id) {
+        // console.log(this.form);
+        let rs = await PostModel.api().get('post/edit/' + this.id);
+        this.form = rs.response.data;
+        this.form.seo = {};
+        this.form.seo.title = this.form.head_line;
+      }
     },
     beforeDestroy() {
     },

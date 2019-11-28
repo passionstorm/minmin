@@ -28,14 +28,14 @@ export default class PostModel extends BaseModel {
   static fields() {
     return {
       title: this.string(''),
-      summary: this.string(''),
-      body: this.string(''),
+      desc: this.string(''),
+      content: this.string(''),
       status: this.number(0),
       author: this.belongsTo(User, 'user_id'),
       tags: this.attr('dev'),
       star: this.attr('10'),
       like: this.attr('24'),
-      published: this.attr(''),
+      publishedAt: this.attr(''),
       updateAt: this.attr('2019-07-01'),
       href: this.attr('http://localhost'),
     };
@@ -45,12 +45,8 @@ export default class PostModel extends BaseModel {
     actions: {
       fetch: {
         method: 'get',
-        url: '/post/create'
+        url: '/post'
       },
-      // post: {
-      //   method: 'post',
-      //   url: '/post/create'
-      // }
     }
   }
 }

@@ -10,7 +10,7 @@ import (
 	"github.com/kataras/iris/v12/mvc"
 	"github.com/kataras/iris/v12/view"
 	R "minmin/app/controllers"
-	"minmin/app/models"
+	"minmin/app/logic"
 	"reflect"
 )
 
@@ -33,6 +33,7 @@ func main() {
 
 	crs := cors.New(cors.Options{
 		AllowedOrigins:   []string{"*"}, // allows everything, use that to change the hosts.
+		AllowedHeaders:   []string{"*"},
 		AllowCredentials: true,
 	})
 	mvcApp := mvc.Configure(app.Party("/api", crs).AllowMethods(iris.MethodOptions), apiRoute)
@@ -52,7 +53,9 @@ func notFound() {
 }
 
 func apiRoute(app *mvc.Application) {
-	app.Register(models.NewArticleLogic()).Party("/post").Handle(new(R.PostController))
+	app.Register(logic.NewUploadLogic())
+	app.Register(logic.NewArticleLogic()).Party("/post").Handle(new(R.PostController))
+	app.Handle(new(R.UploadController))
 }
 
 // localstion/admin/...

@@ -71,7 +71,7 @@ func (m *mysqlTester) setup() error {
 		return err
 	}
 
-	// Insert a randomized db name.
+	// Create a randomized db name.
 	if len(m.testDBName) == 0 {
 		m.testDBName = randomize.StableDBName(m.dbName)
 	}

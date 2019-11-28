@@ -6,4 +6,4 @@
 `rizla -delay=1s main.go`
 
 ### Generate orm model
-`sqlboiler mysql`
+`sqlboiler mysql -o app/models`

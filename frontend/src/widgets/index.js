@@ -17,6 +17,7 @@ import Autocomplete from './Autocomplete';
 import Tag from './tag/Tag';
 import Taglist from './tag/Taglist';
 import Taginput from './Taginput';
+import Upload from './Upload';
 
 export {
   Pin,
@@ -38,4 +39,5 @@ export {
   Tag,
   Taglist,
   Taginput,
+  Upload,
 };
