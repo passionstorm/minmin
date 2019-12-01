@@ -57,7 +57,6 @@
 
 <script>
   import {VTableColumn, Check, Icon, Modal, Radio, VTable, VSelect} from '../../widgets';
-  import {default as MemberModel, ENTITY} from '../../store/models/MemberModel';
 
   export default {
     components: {Modal, Icon, Check, Radio, VTable, VTableColumn, VSelect},
@@ -103,8 +102,6 @@
     methods: {
       edit(item) {
         // this.setEditedItem(item)
-        window.MemberForm.setEditedItem(item);
-        this.editModal = true;
       },
       del() {
         this.$app.dialog.confirm({
@@ -118,8 +115,6 @@
       },
     },
     async beforeMount() {
-      await MemberModel.$fetch();
-      this.data = MemberModel.query().all();
     },
   };
 </script>

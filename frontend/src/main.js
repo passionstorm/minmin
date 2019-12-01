@@ -2,16 +2,8 @@ import Vue from 'vue';
 import App from './App.vue';
 import router from './router';
 import store from './store';
-import toast from './widgets/toast';
-import notification from './widgets/notification';
-import {loadLocale} from './validator';
-import VueFroala from 'vue-froala-wysiwyg';
-
-Vue.use(toast);
-Vue.use(notification);
-Vue.use(VueFroala);
-let locale = 'vi';
-loadLocale(locale);
+require('./bootstrap')
+require('../dist/app.css')
 
 export const bus = new Vue();
 new Vue({
@@ -19,6 +11,5 @@ new Vue({
   router,
   store,
   bus,
-  locale: locale,
 }).$mount('#app');
 

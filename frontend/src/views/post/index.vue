@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div class="list">
-      <div class="list-item" v-for="i in data">
+    <div class="list" v-if="items.length">
+      <div class="list-item" v-for="i in items">
         <div class="content">
           <router-link :to="{name: 'post_edit', params:{id: i.id}}">{{i.title}}</router-link>
           <span class="desc">{{i.updated_at}}</span>
@@ -14,33 +14,38 @@
         </div>
       </div>
     </div>
+    <div v-else>
+      <h2>
+        Hiện tại không có bài viết nào
+      </h2>
+      <router-link class="btn btn-primary" :to="{name: 'post_edit'}">Thêm bài viết</router-link>
+    </div>
   </div>
 </template>
 
 <script>
+  import {mapState} from 'vuex';
   import {Check, Icon, Modal, Radio, VSelect, VTable, VTableColumn} from '../../widgets';
-  import {default as PostModel, ENTITY} from '../../store/models/PostModel';
 
   export default {
     components: {Modal, Icon, Check, Radio, VTable, VTableColumn, VSelect},
     data() {
       return {
-        currentPage: 1,
-        perPage: 15,
-        data: [],
-        selected: {},
         columns: [
           {field: 'title', label: 'Title', searchable: true},
         ],
-        checkedRows: [],
-        entity: ENTITY,
-        editModal: false,
       };
     },
-    async mounted() {
-      let res = await PostModel.api().fetch();
-      this.data = res.response.data;
-      console.log(res.response.data);
+    computed: {
+      ...mapState('post', ['items']),
+    },
+    watch:{
+      items(val){
+        console.log(val);
+      }
+    },
+    mounted() {
+      this.$store.dispatch('post/get_all');
     },
   };
 </script>

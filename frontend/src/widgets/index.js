@@ -6,7 +6,6 @@ import Icon from './Icon';
 import VSelect from './Select';
 import Tab from './Tab';
 import Card from './Card';
-import Editor from './Editor';
 import Field from './field/Field';
 import VInput from './VInput';
 import VPagination from './pagination/Pagination';
@@ -29,7 +28,6 @@ export {
   VSelect,
   Tab,
   Card,
-  Editor,
   Field,
   VInput,
   VTable,

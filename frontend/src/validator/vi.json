@@ -1,8 +1,0 @@
-{
-  "code": "vi",
-  "messages": {
-    "required": "Vui lòng điền vào trường này",
-    "phone": "Số điện thoại không đúng",
-    "username": "username không hợp lệ"
-  }
-}

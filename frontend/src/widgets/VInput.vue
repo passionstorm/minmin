@@ -1,11 +1,10 @@
 <template>
-  <ValidationProvider :mode="validMode" :rules="rules" v-slot="{ errors, valid }" :name="name" :vid="vid">
     <div class="control" :class="rootClasses">
       <input
           v-if="type !== 'textarea'"
           ref="input"
           class="input"
-          :class="[inputClasses, customClass, {'is-danger': errors.length > 0}, {'is-success': rules && valid}]"
+          :class="[inputClasses, customClass]"
           :type="newType"
           :autocomplete="newAutocomplete"
           :maxlength="maxlength"
@@ -22,7 +21,7 @@
             :rows="textAreaRow"
             ref="textarea"
             class="textarea"
-            :class="[inputClasses, customClass, {'is-danger': errors.length > 0}, {'is-success': rules && valid}]"
+            :class="[inputClasses, customClass]"
             :maxlength="maxlength"
             :value="computedValue"
             v-bind="$attrs"
@@ -30,10 +29,7 @@
             @blur="onBlur"
             @focus="onFocus"></textarea>
       </transition>
-
-
       <icon class="is-left" v-if="icon" :name="icon"/>
-      <span v-if="!!errors.length" class="help is-danger" style="display: inline-flex">{{ errors[0] }}</span>
       <small
           v-if="maxlength && hasCounter && type !== 'number'"
           class="help counter"
@@ -41,18 +37,15 @@
         {{ valueLength }} / {{ maxlength }}
       </small>
     </div>
-  </ValidationProvider>
 </template>
 
 <script>
   import Icon from './Icon'
   import config from '../utils/config_element'
   import FormElementMixin from './mixins/form.mixin'
-  import {ValidationProvider} from 'vee-validate';
-
   export default {
     name: 'VInput',
-    components: {Icon, ValidationProvider,},
+    components: {Icon,},
     mixins: [FormElementMixin],
     inheritAttrs: false,
     props: {
@@ -203,17 +196,6 @@
       }
     },
     methods: {
-      /**
-       * Toggle the visibility of a password-reveal input
-       * by changing the type and focus the input right away.
-       */
-      isCheckValid(valid, errors) {
-        if (!this.rules) return false;
-        if (!valid) {
-          return false;
-        }
-        return true;
-      },
       togglePasswordVisibility() {
         this.isPasswordVisible = !this.isPasswordVisible
         this.newType = this.isPasswordVisible ? 'text' : 'password'

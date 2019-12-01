@@ -53,28 +53,9 @@ export const constantRoutes = [
     activeMenu: '/example/list'  if set path, the sidebar will highlight the path you set
   }
  */
-let _asyncRoutes = [
-  // {
-  //   path: '/goods',
-  //   meta: {title: 'Sản phẩm', icon: 'cart'},
-  //   component: Layout,
-  //   type: 'bar',
-  //   children: [
-  //     {
-  //       path: 'menu1',
-  //       name: 'goods_edit',
-  //       meta: {
-  //         noCache: true,
-  //         title: 'menu1',
-  //         roles: ['admin', 'editor'],
-  //       },
-  //       component: () => import('../views/post/post'),
-  //     },
-  //   ],
-  // },
-];
+let _asyncRoutes = [];
 
-const collectRoute = require.context('../views', true, /index.route\.js$/);
+const collectRoute = require.context('../views', true, /route\.js$/);
 collectRoute.keys().forEach((r) => {
   let route = collectRoute(r).default;
   if (Array.isArray(route)) {

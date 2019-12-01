@@ -1,5 +1,5 @@
 <template>
-  <ValidationObserver ref="form" tag="form" @submit.prevent="onSubmit">
+  <form ref="form" @submit.prevent="onSubmit">
     <field required="true" label="Username" class="col-md-6">
       <v-input name="username" rules="required|min:3|max:30|username" v-model="editedItem.username" maxlength="30"/>
     </field>
@@ -41,24 +41,15 @@
         <button type="submit" class="btn btn-primary"><b>Submit</b></button>
       </div>
     </div>
-  </ValidationObserver>
+  </form>
 </template>
 
 <script>
   import {ROLE_TYPES} from '../../utils/constant';
   import {Collapse, Field, Icon, Radio, VInput} from '../../widgets';
-  import {extend, ValidationObserver} from 'vee-validate';
-  import MemberModel from '../../store/models/MemberModel';
 
   export default {
-    components: {
-      VInput,
-      Field,
-      ValidationObserver,
-      Collapse,
-      Icon,
-      Radio,
-    },
+    components: {VInput,Field, Collapse,Icon,Radio, },
     props: {},
     data() {
       return {
@@ -71,40 +62,9 @@
     },
     watch: {},
     mounted() {
-      extend('username', (value, {other}) => {
-        if (!value.match(/^[a-zA-Z0-9]+$/)) return 'username chưa đúng';
-
-        if (this.id && value === this.editedItem.username) return true;
-
-        if (MemberModel.query().where('username', value).first()) return 'username đã tốn tại';
-
-        return true;
-      });
-
     },
     methods: {
       async onSubmit() {
-        const isValid = await this.$refs.form.validate();
-        if (!isValid) return;
-
-        if (this.id) {
-          await MemberModel.$update({
-            data: this.editedItem,
-          });
-          this.$app.notification.open({
-            message: 'Đã cập nhật thông tin!',
-            type: 'is-success',
-          });
-        } else {
-          await MemberModel.$create({
-            data: this.editedItem,
-          });
-          this.$app.notification.open({
-            message: 'Đã thêm thành viên mới!',
-            type: 'is-success',
-          });
-          this.resetForm();
-        }
       },
       resetForm() {
         this.$refs.form.reset();
@@ -113,9 +73,6 @@
     },
     beforeMount() {
       this.$route.meta.title = this.id ? 'Cập nhật thành viên' : 'Thêm thành viên';
-      if (!this.id) return;
-      this.editedItem = Object.assign({}, MemberModel.query().find(this.id));
-      this.editedItem.rePassword = this.editedItem.password;
     },
     created() {
     },

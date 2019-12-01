@@ -44,7 +44,6 @@
 </template>
 
 <script>
-  import {ValidationProvider} from 'vee-validate';
   import config from '../../utils/config_element'
   import FieldBody from './FieldBody'
   export default {

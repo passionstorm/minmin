@@ -5,6 +5,7 @@ const VueLoaderPlugin = require('vue-loader').VueLoaderPlugin;
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const resolve = dir => {
   return path.join(__dirname, dir);
 };
@@ -12,8 +13,11 @@ const fs = require('fs');
 const iconFiles = fs.readdirSync(resolve('src/assets/images/icons'));
 const icons = iconFiles.map(e => e.replace(/\.[^/.]+$/, ''));
 
+const mode = process.env.NODE_ENV;
+const isDev = mode === 'development';
 module.exports = {
-  mode: 'development',
+  mode: mode,
+  devtool: 'cheap-eval-source-map',
   stats: {
     errors: true,
     errorDetails: true,
@@ -28,6 +32,7 @@ module.exports = {
     assets: false,
   },
   plugins: [
+    new webpack.HashedModuleIdsPlugin(), // so that file hashes don't change unexpectedly
     new webpack.HotModuleReplacementPlugin(),
     new VueLoaderPlugin(),
     new HtmlWebpackPlugin({
@@ -40,6 +45,10 @@ module.exports = {
       'chunks': 'all',
       'minify': true,
       // chunksSortMode: 'dependency'
+    }),
+    new MiniCssExtractPlugin({
+      filename: '[name].css',
+      chunkFilename: '[id].css',
     }),
     new FriendlyErrorsPlugin(),
     new webpack.DefinePlugin({
@@ -57,16 +66,17 @@ module.exports = {
     port: 8080,
   },
   entry: {
-    'app': './src/main.js',
+    'admin': './src/main.js',
+    vendors: ['vue', 'vuex', 'core-js', 'vue-router', 'axios', 'lodash-es']
   },
   output: {
-    path: path.resolve(__dirname, '../../public/js/admin'),
+    path: path.resolve(__dirname, '../public/dist/admin'),
     filename: '[name].js',
-    chunkFilename: '[name].bundle.js',
+    chunkFilename: '[contenthash].js',
   },
   resolve: {
     alias: {
-      'vue$': 'vue/dist/vue.esm.js',
+      'vue$': isDev ? 'vue/dist/vue.esm.js' : 'vue/dist/vue.runtime.min.js',
       '_c': resolve('src/components'),
       '_w': resolve('src/widgets'),
       '_u': resolve('src/utils'),
@@ -78,7 +88,6 @@ module.exports = {
     aggregateTimeout: 300,
     poll: 1000,
   },
-
   module: {
     rules: [
       {
@@ -95,7 +104,18 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        loader: 'style-loader!css-loader',
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              publicPath: path.resolve(__dirname, '../public/css'),
+              // only enable hot in development
+              hmr: isDev,
+              reloadAll: true,
+            },
+          },
+          'css-loader',
+        ],
       },
       {
         test: /\.vue$/,
@@ -126,15 +146,14 @@ if (process.env.NODE_ENV === 'production') {
     minimize: true,
     minimizer: [
       new TerserPlugin({
-        cache: false,
-        extractComments: false,
-        sourceMap: false,
         terserOptions: {
           output: {
             comments: false,
           },
         },
+        cache: true,
       }),
+      new OptimizeCSSAssetsPlugin({}),
     ],
     splitChunks: {
       chunks: 'all',
@@ -149,7 +168,6 @@ if (process.env.NODE_ENV === 'production') {
           test: /[\\/]node_modules[\\/]/,
           priority: -10,
           minChunks: 2,
-          // enforce: true,
           reuseExistingChunk: true,
         },
         common: {
@@ -158,7 +176,6 @@ if (process.env.NODE_ENV === 'production') {
           chunks: 'initial',
           priority: 10,
           reuseExistingChunk: true,
-          // enforce: true
         },
       },
     },

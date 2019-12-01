@@ -20,7 +20,7 @@ func (c *PostController) GetEditBy(id int, ctx iris.Context, l logic.ArticleLogi
 }
 
 func (c *PostController) Get(ctx iris.Context, l logic.ArticleLogic) {
-	_, _ = ctx.JSON(l.GetAll())
+	ctx.JSON(l.GetAll())
 }
 
 func (c *PostController) PostCreate(ctx iris.Context, db logic.ArticleLogic) {

@@ -1,37 +1,21 @@
 <template>
   <div>
-    <div class="tags">
-            <span v-for="(file, index) in dropFiles"
-                  :key="index"
-                  class="tag is-primary" >
-                {{file.name}}
-                <button class="delete is-small"
-                        type="button"
-                        @click="deleteDropFile(index)">
-                </button>
-            </span>
-    </div>
-    <ValidationObserver ref="form" tag="form" @submit.prevent="onSubmit" v-slot="{invalid}">
+    <form @submit.prevent="onSubmit">
       <div class="d-flex bd-highlight mb-2">
         <div class="mr-auto p-2 bd-highlight">
-          <a href="javascript:;" class="btn btn-d">❮ Quay lai</a>
+          <a href="javascript:;" @click="$router.go(-1)" class="btn btn-d">❮ Quay lai</a>
         </div>
         <div class="p-2 bd-highlight">
           <a href="javascript:;" class="btn btn-danger" @click="modal.reset = true">Reset</a>
           <a href="javascript:;" class="btn btn-d ">Lưu</a>
-          <a :disabled="invalid" href="javascript:;" @click="onSubmit" class="btn btn-primary">Đăng</a>
+          <a href="javascript:;" @click="onSubmit" class="btn btn-primary">Đăng</a>
         </div>
       </div>
-
       <collapse aria-id="colaps.post" class="card card-primary" :open.sync="colaps.post.open">
         <div role="button" class="card-header" slot="trigger" aria-controls="colaps.post" slot-scope="props">
-          <div class="card-header-title">
-            Bài viết
-          </div>
+          <div class="card-header-title">Bài viết</div>
           <a class="card-header-icon">
-            <icon
-                :name="props.open ? 'arrow_down' : 'arrow_right'">
-            </icon>
+            <icon :name="props.open ? 'arrow_down' : 'arrow_right'"></icon>
           </a>
         </div>
         <div class="card-body">
@@ -39,26 +23,16 @@
             <v-input vid="title" rules="required" maxlength="30" v-model="form.title" type="'text'" title="Tiêu đề*"
                      placeholder="Tiêu đề"/>
           </field>
-          <field label="Danh muc" class="col-sm-10">
-            <taginput :data="filterCategory" autocomplete v-model="form.categories" icon="label"
-                      placeholder="Add a tag" field="name" @typing="onTypeCategoryTag"
-            ></taginput>
-          </field>
-
           <field class="col-sm-10" label="Nội dung">
-            <editor ref="editor" v-model="form.content" :height="400"/>
+            <v-input type="textarea" v-model="form.content"></v-input>
           </field>
-
           <field>
             <upload v-model="dropFiles"
-                      drag-drop>
+                    drag-drop>
               <section class="section">
                 <div class="content has-text-centered">
                   <p>
-                    <icon
-                        name="cloud_upload"
-                        size="l">
-                    </icon>
+                    <icon name="cloud_upload" size="l"/>
                   </p>
                   <p>Drop your files here or click to upload</p>
                 </div>
@@ -91,7 +65,7 @@
           </field>
         </div>
       </collapse>
-    </ValidationObserver>
+    </form>
     <modal v-model="modal.reset">
       <template slot="header">
         <h5 class="modal-title">Xác nhận</h5>
@@ -108,11 +82,8 @@
 </template>
 
 <script>
-  import {Check, Collapse, Field, Icon, Modal, Pin, Taginput, VInput, VSelect, Upload} from '../../widgets';
-  import PostModel from '../../store/models/PostModel';
-  import SeoTagModel from '../../store/models/SeoTagModel';
-
-  import {ValidationObserver} from 'vee-validate';
+  import {Check, Collapse, Field, Icon, Modal, Pin, Taginput, Upload, VInput, VSelect} from '../../widgets';
+  import {mapState} from 'vuex';
 
   const defaultForm = {
     status: '1',
@@ -125,15 +96,12 @@
     categories: [],
     display_time: undefined, // 前台展示时间
     id: undefined,
-    platforms: ['a-platform'],
     comment_disabled: false,
     importance: 0,
   };
-
   export default {
     components: {
-      VInput, Field, Pin, VSelect, Modal, Check, ValidationObserver, Taginput, Collapse, Icon, Upload,
-      editor: () => import('../../widgets/Editor'),
+      VInput, Field, Pin, VSelect, Modal, Check, Taginput, Collapse, Icon, Upload,
     },
     data() {
       return {
@@ -167,10 +135,13 @@
         form: Object.assign({}, defaultForm),
       };
     },
-    watch:{
+    watch: {
       dropFiles(val) {
         console.log(val);
-      }
+      },
+    },
+    computed: {
+      ...mapState('post', ['item']),
     },
     methods: {
       onTypeCategoryTag(text) {
@@ -188,40 +159,19 @@
         this.form = Object.assign({}, defaultForm);
         this.modal.reset = false;
       },
-
       async onSubmit() {
-        // this.$refs.form.vahlidate();
-        let res = await PostModel.api().post('post/create', this.form);
-        this.dataRes = res.response.data;
-        // this.reset();
       },
       async onAddSeoTag(text) {
-        const exists = SeoTagModel.query().where('content', text).first();
-
-        if (exists) return;
-
-        let content = (typeof text === 'object') ? text.content : text;
-        await SeoTagModel.$create({
-          data: {
-            content: content,
-            shop_id: 1,
-          },
-        });
-        this.listSeoTag = SeoTagModel.query().get();
       },
     },
     created() {
-      // PostModel.api().fetch();
     },
-    async mounted() {
-      // await SeoTagModel.$fetch();
-      // this.listSeoTag = SeoTagModel.query().get();
+    mounted() {
       if (this.id) {
-        // console.log(this.form);
-        let rs = await PostModel.api().get('post/edit/' + this.id);
-        this.form = rs.response.data;
-        this.form.seo = {};
-        this.form.seo.title = this.form.head_line;
+        axios.get('api/post/edit/' + this.id).then(res => {
+          this.form = res.data;
+          this.form.seo = {};
+        });
       }
     },
     beforeDestroy() {
