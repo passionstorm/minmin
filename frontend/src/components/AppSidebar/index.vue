@@ -33,7 +33,7 @@
       },
     },
     created() {
-      // console.log(this.permission_routes.filter(e => e.type === 'bar'))
+      console.log("Sidebar loaded!");
       this.listSlides = this.permission_routes.filter(e => e.type === 'bar');
     },
   };

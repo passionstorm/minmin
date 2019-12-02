@@ -14,18 +14,19 @@ const t = {
         title: 'Danh sách', group: 'apps',
         roles: ['admin', 'editor'],
       },
-      component: () => import('./index'),
+      component: () => import('./post_list'),
     },
     {
       path: 'edit/:id?',
       name: 'post_edit',
+      props: true,
       meta: {
         noCache: true,
         title: 'Thêm bài viết', group: 'apps',
         roles: ['admin', 'editor'],
         icon: 'edit',
       },
-      component: () => import('./PostForm'),
+      component: () => import('./post_form'),
     },
   ],
 };

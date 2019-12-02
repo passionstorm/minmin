@@ -103,6 +103,9 @@
     components: {
       VInput, Field, Pin, VSelect, Modal, Check, Taginput, Collapse, Icon, Upload,
     },
+    props: {
+      id: Number,
+    },
     data() {
       return {
         tags: [],
@@ -110,7 +113,6 @@
           post: {open: true},
           seo: {open: true},
         },
-        id: this.$route.params.id,
         dataRes: {},
         editedItem: {},
         listCategory: [

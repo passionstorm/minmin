@@ -25,7 +25,7 @@ func die(err error) {
 func main() {
 	app := iris.New()
 	app.Use(recover.New())
-	//app.Logger().SetLevel("debug")
+	app.Logger().SetLevel("debug")
 	err := godotenv.Load()
 	if err != nil {
 		panic("Not found file .env")
@@ -40,19 +40,21 @@ func main() {
 		fmt.Fprint(buffer, a.Get(0))
 		return reflect.ValueOf(base64.URLEncoding.EncodeToString(buffer.Bytes()))
 	})
+
 	app.RegisterView(tmpl)
-	app.HandleDir("/admin", "public/dist/admin", iris.DirOptions{
-		//Asset:      Asset,
-		//AssetInfo:  AssetInfo,
-		//AssetNames: AssetNames,
-		//ShowList:   true,
-		IndexName: "/index.html",
-		// When files should served under compression.
-		Gzip: false,
-		// List the files inside the current requested directory if `IndexName` not found.
-		ShowList: false,
-	})
-	app.Get("/", func(ctx iris.Context) { ctx.Redirect("/admin") })
+
+	//app.HandleDir("/admin", "public/dist/admin", iris.DirOptions{
+	//	//Asset:      Asset,
+	//	//AssetInfo:  AssetInfo,
+	//	//AssetNames: AssetNames,
+	//	//ShowList:   true,
+	//	IndexName: "/index.html",
+	//	// When files should served under compression.
+	//	Gzip: true,
+	//	// List the files inside the current requested directory if `IndexName` not found.
+	//	ShowList: true,
+	//})
+	//app.Get("/", func(ctx iris.Context) { ctx.Redirect("/admin") })
 	crs := cors.New(cors.Options{
 		AllowedOrigins:   []string{"*"}, // allows everything, use that to change the hosts.
 		AllowedHeaders:   []string{"*"},
@@ -62,6 +64,15 @@ func main() {
 	mvcApp.HandleError(func(ctx iris.Context, err error) {
 		ctx.HTML(fmt.Sprintf("<b>%s</b>", err.Error()))
 	})
+
+	staticDomain := app.Party("static.")
+	{
+		staticDomain.HandleDir("/", "public/dist/admin", iris.DirOptions{
+			IndexName: "/index.html",
+			Gzip:      true,
+			ShowList:  true,
+		})
+	}
 
 	var port string
 	if isDev {

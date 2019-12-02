@@ -41,7 +41,8 @@
     },
     watch:{
       items(val){
-        console.log(val);
+
+        // console.log(val);
       }
     },
     mounted() {

@@ -1,6 +1,6 @@
 <template>
   <li v-if="isAlone()" class="nav-item">
-    <router-link :to="resolvePath(it.path)" class="nav-link">
+    <router-link :to="{name: it.name}" class="nav-link">
       <icon :name="it.meta.icon ? it.meta.icon : 'circle'" class="nav-icon"/>
       <p>{{it.meta.title}}</p>
     </router-link>
@@ -92,6 +92,7 @@
       },
     },
     created() {
+
     },
   };
 </script>

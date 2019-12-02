@@ -6,6 +6,14 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const CompressionPlugin = require('compression-webpack-plugin');
+const BrotliPlugin = require('brotli-webpack-plugin');
+const mode = process.env.NODE_ENV;
+const isDev = mode === 'development';
+
+process.env.ASSET_PATH = isDev ? '/' :'http://localhost:9000/admin'
+
+const ASSET_PATH = process.env.ASSET_PATH || '/';
 const resolve = dir => {
   return path.join(__dirname, dir);
 };
@@ -13,8 +21,7 @@ const fs = require('fs');
 const iconFiles = fs.readdirSync(resolve('src/assets/images/icons'));
 const icons = iconFiles.map(e => e.replace(/\.[^/.]+$/, ''));
 
-const mode = process.env.NODE_ENV;
-const isDev = mode === 'development';
+
 module.exports = {
   mode: mode,
   devtool: 'cheap-eval-source-map',
@@ -44,11 +51,11 @@ module.exports = {
       'showErrors': true,
       'chunks': 'all',
       'minify': true,
-      // chunksSortMode: 'dependency'
+      chunksSortMode: 'dependency'
     }),
     new MiniCssExtractPlugin({
       filename: '[name].css',
-      chunkFilename: '[id].css',
+      chunkFilename: '[contenthash].css',
     }),
     new FriendlyErrorsPlugin(),
     new webpack.DefinePlugin({
@@ -57,8 +64,15 @@ module.exports = {
     }),
   ],
   devServer: {
+    disableHostCheck: true,
+    onListening: function(server) {
+      const addr = server.listeningApp.address().address
+      const port = server.listeningApp.address().port;
+      console.log('Listening on port:', `${addr}:${port}`);
+    },
+    host: "static.mintoot.local",
+    https: true,
     clientLogLevel: 'silent',
-    contentBase: resolve('.'),
     historyApiFallback: true,
     hot: true,
     overlay: {warnings: true, errors: true},
@@ -67,9 +81,10 @@ module.exports = {
   },
   entry: {
     'admin': './src/main.js',
-    vendors: ['vue', 'vuex', 'core-js', 'vue-router', 'axios', 'lodash-es']
+    vendors: ['vue', 'vuex', 'core-js', 'vue-router', 'axios', 'lodash-es'],
   },
   output: {
+    publicPath: ASSET_PATH,
     path: path.resolve(__dirname, '../public/dist/admin'),
     filename: '[name].js',
     chunkFilename: '[contenthash].js',
@@ -142,6 +157,25 @@ module.exports = {
 };
 
 if (process.env.NODE_ENV === 'production') {
+  module.exports.plugins.push(
+      new CompressionPlugin({
+        filename: '[path].gz[query]',
+        algorithm: 'gzip',
+        test: /\.(js|css|html|svg)$/,
+        threshold: 10240,
+        minRatio: 0.8,
+        deleteOriginalAssets: false,
+      }),
+      new BrotliPlugin({
+        filename: '[path].br[query]',
+        algorithm: 'brotli',
+        quality: 9,
+        test: /\.(js|css|html|svg)$/,
+        threshold: 10240,
+        minRatio: 0.8,
+        deleteOriginalAssets: false,
+      }),
+  );
   module.exports.optimization = {
     minimize: true,
     minimizer: [

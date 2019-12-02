@@ -92,7 +92,6 @@
           },
         ],
         checkedRows: [],
-        entity: ENTITY,
         editModal: false,
       };
     },
@@ -108,10 +107,6 @@
           message: 'Bạn có chắc chắn muốn xoá không?',
           onConfirm: () => this.$app.toast.open('User confirmed')
         })
-        // let ids = this.checkedRows.map(e => e._id);
-        // ids.forEach(id => MemberModel.$delete(id));
-        // this.checkedRows = [];
-        // this.data = MemberModel.query().all();
       },
     },
     async beforeMount() {
