@@ -11,7 +11,7 @@ const BrotliPlugin = require('brotli-webpack-plugin');
 const mode = process.env.NODE_ENV;
 const isDev = mode === 'development';
 
-process.env.ASSET_PATH = isDev ? '/' :'http://localhost:9000/admin'
+// process.env.ASSET_PATH = isDev ? '/' :'/'
 
 const ASSET_PATH = process.env.ASSET_PATH || '/';
 const resolve = dir => {

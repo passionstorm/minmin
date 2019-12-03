@@ -2,8 +2,8 @@ package controllers
 
 import (
 	"github.com/kataras/iris/v12"
-	"github.com/kataras/iris/v12/_examples/tutorial/mongodb/httputil"
 	"minmin/app/logic"
+	"minmin/app/pkg/httputil"
 )
 
 type PostController struct {

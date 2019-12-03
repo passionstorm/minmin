@@ -65,9 +65,15 @@ func main() {
 		ctx.HTML(fmt.Sprintf("<b>%s</b>", err.Error()))
 	})
 
-	staticDomain := app.Party("static.")
+	app.HandleDir("/fuck", "public/dist/admin", iris.DirOptions{
+		IndexName: "/index.html",
+		Gzip:      true,
+		ShowList:  true,
+	})
+
+	adminDomain := app.Party("admin.")
 	{
-		staticDomain.HandleDir("/", "public/dist/admin", iris.DirOptions{
+		adminDomain.HandleDir("/", "public/dist/admin", iris.DirOptions{
 			IndexName: "/index.html",
 			Gzip:      true,
 			ShowList:  true,
