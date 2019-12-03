@@ -1,8 +1,4 @@
-// export function camel (str) {
-//   const camel = (str || '').replace(/-([^-])/g, g => g[1].toUpperCase());
 
-//   return capitalize(camel);
-// }
 
 export const lazySorter = (sortKey) => (order) => (data) => {
   return data.slice().sort(compareObjectValues(sortKey)(order));

@@ -8,6 +8,8 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
 const BrotliPlugin = require('brotli-webpack-plugin');
+const ManifestPlugin = require('./src/plugins/manifest-plugin');
+
 const mode = process.env.NODE_ENV;
 const isDev = mode === 'development';
 
@@ -20,7 +22,6 @@ const resolve = dir => {
 const fs = require('fs');
 const iconFiles = fs.readdirSync(resolve('src/assets/images/icons'));
 const icons = iconFiles.map(e => e.replace(/\.[^/.]+$/, ''));
-
 
 module.exports = {
   mode: mode,
@@ -42,6 +43,9 @@ module.exports = {
     new webpack.HashedModuleIdsPlugin(), // so that file hashes don't change unexpectedly
     new webpack.HotModuleReplacementPlugin(),
     new VueLoaderPlugin(),
+    new ManifestPlugin({
+      outputPath: resolve('/'),
+    }),
     new HtmlWebpackPlugin({
       // filename: resolve( 'index.html'),
       template: resolve('index.html'),
@@ -51,7 +55,7 @@ module.exports = {
       'showErrors': true,
       'chunks': 'all',
       'minify': true,
-      chunksSortMode: 'dependency'
+      chunksSortMode: 'dependency',
     }),
     new MiniCssExtractPlugin({
       filename: '[name].css',
@@ -65,13 +69,6 @@ module.exports = {
   ],
   devServer: {
     disableHostCheck: true,
-    onListening: function(server) {
-      const addr = server.listeningApp.address().address
-      const port = server.listeningApp.address().port;
-      console.log('Listening on port:', `${addr}:${port}`);
-    },
-    host: "static.mintoot.local",
-    https: true,
     clientLogLevel: 'silent',
     historyApiFallback: true,
     hot: true,
@@ -81,13 +78,13 @@ module.exports = {
   },
   entry: {
     'admin': './src/main.js',
-    vendors: ['vue', 'vuex', 'core-js', 'vue-router', 'axios', 'lodash-es'],
+    // vendors: ['vue', 'vuex', 'core-js', 'vue-router', 'axios', 'lodash-es'],
   },
   output: {
     publicPath: ASSET_PATH,
-    path: path.resolve(__dirname, '../public/dist/admin'),
-    filename: '[name].js',
-    chunkFilename: '[contenthash].js',
+    path: resolve('../public/dist/admin'),
+    filename: '[name].[hash].js',
+    chunkFilename: '[name].[contenthash].js',
   },
   resolve: {
     alias: {
@@ -102,6 +99,19 @@ module.exports = {
   watchOptions: {
     aggregateTimeout: 300,
     poll: 1000,
+  },
+  optimization: {
+    moduleIds: 'hashed',
+    runtimeChunk: 'single',
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendors',
+          chunks: 'all',
+        },
+      },
+    },
   },
   module: {
     rules: [
@@ -178,6 +188,8 @@ if (process.env.NODE_ENV === 'production') {
   );
   module.exports.optimization = {
     minimize: true,
+    moduleIds: 'hashed',
+    runtimeChunk: 'single',
     minimizer: [
       new TerserPlugin({
         terserOptions: {

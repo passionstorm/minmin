@@ -65,7 +65,6 @@
   import {getValueByPath} from '../utils';
   import {Autocomplete,Tag} from './';
   import FormElementMixin from './mixins/form.mixin';
-  import {difference} from 'lodash-es'
   export default {
     name: 'Taginput',
     components: {
@@ -166,7 +165,7 @@
         this.tags = value;
       },
       newTag(value) {
-        this.selectItems = difference(this.data, this.tags)
+        // this.selectItems = difference(this.data, this.tags)
         this.$emit('typing', value.trim());
       },
       hasInput() {
