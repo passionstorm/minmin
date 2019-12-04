@@ -1,7 +1,8 @@
 <template>
   <aside class="sidenav" @mouseover="mouseOver" :class="hover">
     <ul class="nav nav-pills nav-sidebar flex-column">
-      <slide-item v-for="(item,index) in listSlides" :data="item" :key="index" :items="item.children" :to="item.path"></slide-item>
+      <slide-item v-for="(item,index) in listSlides" :data="item" :key="index" :items="item.children"
+                  :to="item.path"></slide-item>
     </ul>
   </aside>
 </template>
@@ -33,12 +34,11 @@
       },
     },
     created() {
-      console.log("Sidebar loaded!");
+      console.log('Sidebar loaded!');
       this.listSlides = this.permission_routes.filter(e => e.type === 'bar');
     },
   };
 </script>
 
 <style scoped>
-
 </style>

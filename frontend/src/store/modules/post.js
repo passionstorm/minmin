@@ -17,7 +17,7 @@ const mutations = {
 
 const actions = {
   get_all({commit}) {
-    axios.get('api/post', {
+    axios.get('post', {
       headers: {
         // Authorization: `Bearer ${
         //     context.getters.currentUser.token
@@ -26,7 +26,7 @@ const actions = {
     }).then(res => commit('ITEMS', res.data)).catch(err => commit('ERRORS', err));
   },
   get({commit}, payload) {
-    axios.get('api/post/edit/' + payload).then(res => commit('ITEM', res.data)).catch(err => commit('ERRORS', err));
+    axios.get('post/edit/' + payload).then(res => commit('ITEM', res.data)).catch(err => commit('ERRORS', err));
   },
   create() {
   },

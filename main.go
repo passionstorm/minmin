@@ -4,9 +4,9 @@ import (
 	"bytes"
 	"encoding/base64"
 	"fmt"
-	"github.com/iris-contrib/middleware/cors"
 	"github.com/joho/godotenv"
 	"github.com/kataras/iris/v12"
+	"github.com/kataras/iris/v12/middleware/logger"
 	"github.com/kataras/iris/v12/middleware/recover"
 	"github.com/kataras/iris/v12/mvc"
 	"github.com/kataras/iris/v12/view"
@@ -25,6 +25,10 @@ func die(err error) {
 func main() {
 	app := iris.New()
 	app.Use(recover.New())
+	app.Use(logger.New())
+	app.OnErrorCode(iris.StatusInternalServerError, func(ctx iris.Context) {
+		ctx.HTML("Message: <b>" + ctx.Values().GetString("message") + "</b>")
+	})
 	app.Logger().SetLevel("debug")
 	err := godotenv.Load()
 	if err != nil {
@@ -32,7 +36,7 @@ func main() {
 	}
 	isDev := os.Getenv("DEV") == "1"
 	logic.Load()
-	tmpl := iris.Jet("./application/views", ".jet")
+	tmpl := iris.Jet("./app/views", ".jet")
 	tmpl.Reload(isDev) // remove in production.
 	tmpl.AddFunc("base64", func(a view.JetArguments) reflect.Value {
 		a.RequireNumOfArguments("base64", 1, 1)
@@ -43,43 +47,8 @@ func main() {
 
 	app.RegisterView(tmpl)
 
-	//app.HandleDir("/admin", "public/dist/admin", iris.DirOptions{
-	//	//Asset:      Asset,
-	//	//AssetInfo:  AssetInfo,
-	//	//AssetNames: AssetNames,
-	//	//ShowList:   true,
-	//	IndexName: "/index.html",
-	//	// When files should served under compression.
-	//	Gzip: true,
-	//	// List the files inside the current requested directory if `IndexName` not found.
-	//	ShowList: true,
-	//})
-	//app.Get("/", func(ctx iris.Context) { ctx.Redirect("/admin") })
-	crs := cors.New(cors.Options{
-		AllowedOrigins:   []string{"*"}, // allows everything, use that to change the hosts.
-		AllowedHeaders:   []string{"*"},
-		AllowCredentials: true,
-	})
-	mvcApp := mvc.Configure(app.Party("/api", crs).AllowMethods(iris.MethodOptions), apiRoute)
-	mvcApp.HandleError(func(ctx iris.Context, err error) {
-		ctx.HTML(fmt.Sprintf("<b>%s</b>", err.Error()))
-	})
-
-	app.HandleDir("/fuck", "public/dist/admin", iris.DirOptions{
-		IndexName: "/index.html",
-		Gzip:      true,
-		ShowList:  true,
-	})
-
-	adminDomain := app.Party("admin.")
-	{
-		adminDomain.HandleDir("/", "public/dist/admin", iris.DirOptions{
-			IndexName: "/index.html",
-			Gzip:      true,
-			ShowList:  true,
-		})
-	}
-
+	initApiDomain(app)
+	initAdminDomain(app)
 	var port string
 	if isDev {
 		port = ":9000"
@@ -90,9 +59,15 @@ func main() {
 	die(err)
 }
 
-func apiRoute(app *mvc.Application) {
+
+func registerLogic(app *mvc.Application) {
 	app.Register(logic.NewUploadLogic())
 	app.Register(logic.NewArticleLogic())
+}
+
+func apiRoute(app *mvc.Application) {
+	registerLogic(app)
+
 	app.Party("/post").Handle(new(R.PostController))
 	app.Handle(new(R.UploadController))
 }

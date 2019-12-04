@@ -24,7 +24,7 @@
                      placeholder="Tiêu đề"/>
           </field>
           <field class="col-sm-10" label="Nội dung">
-            <v-input type="textarea" v-model="form.content"></v-input>
+            <editor v-model="form.content"></editor>
           </field>
           <field>
             <upload v-model="dropFiles"
@@ -82,7 +82,7 @@
 </template>
 
 <script>
-  import {Check, Collapse, Field, Icon, Modal, Pin, Taginput, Upload, VInput, VSelect} from '../../widgets';
+  import {Check, Collapse, Editor, Field, Icon, Modal, Pin, Taginput, Upload, VInput, VSelect} from '../../widgets';
   import {mapState} from 'vuex';
 
   const defaultForm = {
@@ -101,7 +101,7 @@
   };
   export default {
     components: {
-      VInput, Field, Pin, VSelect, Modal, Check, Taginput, Collapse, Icon, Upload,
+      VInput, Field, Pin, VSelect, Modal, Check, Taginput, Collapse, Icon, Upload, Editor,
     },
     props: {
       id: Number,
@@ -170,7 +170,7 @@
     },
     mounted() {
       if (this.id) {
-        axios.get('api/post/edit/' + this.id).then(res => {
+        axios.get('post/edit/' + this.id).then(res => {
           this.form = res.data;
           this.form.seo = {};
         });

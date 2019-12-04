@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>GOMIN MANAGER</title>
+    <base href="http://admin.localhost:9000">
+<link href="/d29584843c30463b2f34.css" rel="stylesheet"></head>
+<body style="overflow: hidden">
+<div id="app"></div>
+<script type="text/javascript" src="/runtime.1a908f240de6fb29c8c9.js"></script><script type="text/javascript" src="/admin.a8c91fefdfbb7b434a70.js"></script></body>
+</html>

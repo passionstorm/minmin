@@ -13,7 +13,7 @@
     data: function () {
       return {
         dropzoneOptions: {
-          url: 'http://127.0.0.1:9000/api/upload',
+          // url: 'http://127.0.0.1:9000/api/upload',
           thumbnailWidth: 150,
           maxFilesize: 0.5,
           headers: { "My-Awesome-Header": "header value" }

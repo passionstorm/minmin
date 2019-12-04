@@ -98,7 +98,8 @@
 </script>
 <style scoped>
   .nav-sidebar .nav-link p {
-    display: inline-block;
+    display: flex;
+    padding-left: 8px;
     margin: 0;
     transition: margin-right 1s linear, opacity 1s ease, visibility 1s ease;
   }
@@ -112,7 +113,7 @@
 
   .nav-link {
     position: relative;
-    display: block;
+    display: flex;
     padding: 0.5rem 1rem;
     white-space: nowrap;
   }

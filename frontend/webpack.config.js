@@ -3,26 +3,22 @@ const webpack = require('webpack');
 const TerserPlugin = require('terser-webpack-plugin');
 const VueLoaderPlugin = require('vue-loader').VueLoaderPlugin;
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
-const BrotliPlugin = require('brotli-webpack-plugin');
+
 const ManifestPlugin = require('./src/plugins/manifest-plugin');
+const dotenv = require('dotenv');
+const fs = require('fs');
 
-const mode = process.env.NODE_ENV;
-const isDev = mode === 'development';
-
-// process.env.ASSET_PATH = isDev ? '/' :'/'
-
-const ASSET_PATH = process.env.ASSET_PATH || '/';
 const resolve = dir => {
   return path.join(__dirname, dir);
 };
-const fs = require('fs');
+const env = dotenv.config({path: resolve('../.env')}).parsed;
+const mode = process.env.NODE_ENV;
+const isDev = mode === 'development';
 const iconFiles = fs.readdirSync(resolve('src/assets/images/icons'));
 const icons = iconFiles.map(e => e.replace(/\.[^/.]+$/, ''));
-
 module.exports = {
   mode: mode,
   devtool: 'cheap-eval-source-map',
@@ -40,6 +36,12 @@ module.exports = {
     assets: false,
   },
   plugins: [
+    new webpack.DefinePlugin({
+      'ICON_LIST': JSON.stringify(icons),
+      'API_URL': JSON.stringify(env.API_URL),
+      'ADMIN_URL': JSON.stringify(env.ADMIN_URL),
+      'STATIC_URL': JSON.stringify(env.STATIC_URL),
+    }),
     new webpack.HashedModuleIdsPlugin(), // so that file hashes don't change unexpectedly
     new webpack.HotModuleReplacementPlugin(),
     new VueLoaderPlugin(),
@@ -57,15 +59,11 @@ module.exports = {
       'minify': true,
       chunksSortMode: 'dependency',
     }),
-    new MiniCssExtractPlugin({
-      filename: '[name].css',
-      chunkFilename: '[contenthash].css',
-    }),
-    new FriendlyErrorsPlugin(),
-    new webpack.DefinePlugin({
-      'ICON_LIST': JSON.stringify(icons),
-      'BASE_URL': 'http://localhost:9000/api',
-    }),
+    // new MiniCssExtractPlugin({
+    //   filename: '[name].css',
+    //   chunkFilename: '[contenthash].css',
+    // }),
+    // new FriendlyErrorsPlugin(),
   ],
   devServer: {
     disableHostCheck: true,
@@ -78,10 +76,10 @@ module.exports = {
   },
   entry: {
     'admin': './src/main.js',
-    // vendors: ['vue', 'vuex', 'core-js', 'vue-router', 'axios', 'lodash-es'],
+    // vendors: ['vue', 'vuex', 'core-js', 'vue-router', 'axios'],
   },
   output: {
-    publicPath: ASSET_PATH,
+    publicPath: '/',
     path: resolve('../public/dist/admin'),
     filename: '[name].[hash].js',
     chunkFilename: '[name].[contenthash].js',
@@ -130,16 +128,8 @@ module.exports = {
       {
         test: /\.css$/,
         use: [
-          {
-            loader: MiniCssExtractPlugin.loader,
-            options: {
-              publicPath: path.resolve(__dirname, '../public/css'),
-              // only enable hot in development
-              hmr: isDev,
-              reloadAll: true,
-            },
-          },
-          'css-loader',
+          'vue-style-loader',
+          {loader: 'css-loader'},
         ],
       },
       {
@@ -167,6 +157,7 @@ module.exports = {
 };
 
 if (process.env.NODE_ENV === 'production') {
+  const BrotliPlugin = require('brotli-webpack-plugin');
   module.exports.plugins.push(
       new CompressionPlugin({
         filename: '[path].gz[query]',
@@ -176,15 +167,15 @@ if (process.env.NODE_ENV === 'production') {
         minRatio: 0.8,
         deleteOriginalAssets: false,
       }),
-      new BrotliPlugin({
-        filename: '[path].br[query]',
-        algorithm: 'brotli',
-        quality: 9,
-        test: /\.(js|css|html|svg)$/,
-        threshold: 10240,
-        minRatio: 0.8,
-        deleteOriginalAssets: false,
-      }),
+      // new BrotliPlugin({
+      //   filename: '[path].br[query]',
+      //   algorithm: 'brotli',
+      //   quality: 9,
+      //   test: /\.(js|css|html|svg)$/,
+      //   threshold: 10240,
+      //   minRatio: 0.8,
+      //   deleteOriginalAssets: false,
+      // }),
   );
   module.exports.optimization = {
     minimize: true,
@@ -201,29 +192,29 @@ if (process.env.NODE_ENV === 'production') {
       }),
       new OptimizeCSSAssetsPlugin({}),
     ],
-    splitChunks: {
-      chunks: 'all',
-      maxInitialRequests: Infinity,
-      minSize: 0,
-      cacheGroups: {
-        default: false,
-        vendors: false,
-        vendor: {
-          name: 'vendor',
-          chunks: 'initial',
-          test: /[\\/]node_modules[\\/]/,
-          priority: -10,
-          minChunks: 2,
-          reuseExistingChunk: true,
-        },
-        common: {
-          name: 'common',
-          minChunks: 2,
-          chunks: 'initial',
-          priority: 10,
-          reuseExistingChunk: true,
-        },
-      },
-    },
+    // splitChunks: {
+    //   chunks: 'all',
+    //   maxInitialRequests: Infinity,
+    //   minSize: 0,
+    //   cacheGroups: {
+    //     default: false,
+    //     vendors: false,
+    //     vendor: {
+    //       name: 'vendor',
+    //       chunks: 'initial',
+    //       test: /[\\/]node_modules[\\/]/,
+    //       priority: -10,
+    //       minChunks: 2,
+    //       reuseExistingChunk: true,
+    //     },
+    //     common: {
+    //       name: 'common',
+    //       minChunks: 2,
+    //       chunks: 'initial',
+    //       priority: 10,
+    //       reuseExistingChunk: true,
+    //     },
+    //   },
+    // },
   };
 }

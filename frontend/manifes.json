@@ -1,0 +1,57 @@
+{
+    "hash": "97482a1f6d0a69ce3243",
+    "assets": [
+        {
+            "name": "0.9d9477c29d522fa8f75f.js",
+            "s": "716 KB"
+        },
+        {
+            "name": "1.b2e158a173359cc3375f.js",
+            "s": "44 KB"
+        },
+        {
+            "name": "2.292d0b508cb01ac98102.js",
+            "s": "57 KB"
+        },
+        {
+            "name": "3.f09315243400b3fb8fef.js",
+            "s": "29 KB"
+        },
+        {
+            "name": "4.4cc482d3b9e16c30a2d4.js",
+            "s": "43 KB"
+        },
+        {
+            "name": "5.cfb6a86b20ae79066a89.js",
+            "s": "32 KB"
+        },
+        {
+            "name": "6.14a23ac5b5c44c203db3.js",
+            "s": "24 KB"
+        },
+        {
+            "name": "7.5c933199314afdade9c0.js",
+            "s": "12 KB"
+        },
+        {
+            "name": "8.1076200943f5e312c145.js",
+            "s": "14 KB"
+        },
+        {
+            "name": "9.2daa1d557eb39d7cc282.js",
+            "s": "55 KB"
+        },
+        {
+            "name": "admin.22cfb4f3c43ea7f1298b.js",
+            "s": "1273 KB"
+        },
+        {
+            "name": "runtime.97482a1f6d0a69ce3243.js",
+            "s": "35 KB"
+        },
+        {
+            "name": "vendors.1ff49102d4c88c1d5bbe.js",
+            "s": "4933 KB"
+        }
+    ]
+}
