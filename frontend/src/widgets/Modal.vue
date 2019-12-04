@@ -41,7 +41,7 @@
   import config from '../utils/config_element';
 
   export default {
-    name: 'VModal',
+    name: 'Modal',
     directives: {
       trapFocus,
     },
