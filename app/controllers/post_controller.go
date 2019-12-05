@@ -30,7 +30,7 @@ func (c *PostController) PostCreate(ctx iris.Context, db logic.ArticleLogic) {
 		_ = httputil.FailJSON(ctx, iris.StatusBadRequest, err, "Param is invalid")
 		return
 	}
-	err = db.Insert(ctx, formData)
+	err = db.InsertOrUpd(ctx, formData)
 	if err != nil {
 		httputil.InternalServerErrorJSON(ctx, err, "Server was unable to create")
 		return

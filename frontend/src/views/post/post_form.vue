@@ -162,6 +162,7 @@
         this.modal.reset = false;
       },
       async onSubmit() {
+        axios.post('post/create', this.form)
       },
       async onAddSeoTag(text) {
       },
