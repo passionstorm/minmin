@@ -24,13 +24,16 @@
         <div
             v-else-if="content"
             v-html="content"/>
-        <slot v-else/>
+        <template v-else>
+          <slot/>
+        </template>
         <button
             type="button"
             v-if="showX && !animating"
             class="modal-close is-large"
             @click="cancel('x')"/>
       </div>
+      <slot name="footer" />
     </div>
   </transition>
 </template>

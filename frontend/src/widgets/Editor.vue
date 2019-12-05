@@ -12,7 +12,7 @@
 
   .editor .menubar {
     display: flex;
-    height: auto !important;
+    height: 150px;
     -webkit-transition: visibility .2s .4s, opacity .2s .4s;
     transition: visibility .2s .4s, opacity .2s .4s;
   }
@@ -79,7 +79,7 @@
     justify-content: space-between;
     flex-wrap: wrap;
     -webkit-flex-wrap: wrap;
-    margin: 5px 0;
+    padding: 0 10px;
   }
 
   .editor .btn_ext_toolbar.active {
@@ -101,7 +101,7 @@
     -moz-user-select: none; /* Old versions of Firefox */
     -ms-user-select: none; /* Internet Explorer/Edge */
     user-select: none;
-    margin-left: 8px;
+    margin: 4px;
   }
 
   /*.editor .btn_ext_toolbar:not(:first-child) {*/
@@ -166,7 +166,7 @@
   .editor_content table th,
   .editor_content table td {
     min-width: 1em;
-    border: 2px solid #ddd;
+    border: 2px solid #ddd !important;
     padding: 3px 5px;
     vertical-align: top;
     -webkit-box-sizing: border-box;
@@ -174,6 +174,10 @@
     position: relative;
   }
 
+  .content table tbody tr:last-child td,
+  .content table tbody tr:last-child th {
+    border-bottom-width: 1px;
+  }
   .editor_content table .selectedCell:after {
     z-index: 2;
     position: absolute;
@@ -206,134 +210,130 @@
     border-radius: 3px
   }
 
-  .editor_content {
-    padding-bottom: 50px;
-  }
-
-  .editor_content.has_chil_bar {
-    padding-bottom: 75px;
-  }
-
-  .card-footer {
+  .m-footer {
     width: 100%;
     position: fixed;
     bottom: 20px;
-    max-width: 640px;
+    max-width: 960px;
     background: #fff;
   }
 
   .text_toolbar, .menubar, .ext_toolbar {
     width: 100%;
   }
-  .ProseMirror-focused {
-    border-color: none;
-  }
 
-  .modal-content{
+  .modal-content {
     background: #fff;
-    height: calc(100vh - 107px);
+    max-width: 960px !important;
+    height: calc(100vh - 218px);
     max-height: 100vh;
   }
-  .card{
-    border: none;
-    box-shadow: none;
+
+  .modal {
+    justify-content: inherit;
+    padding-top: 3em;
+  }
+
+  .w-r {
+    border: 1px solid #ccc;
+    box-shadow: 0 -5px 5px -5px #333;
   }
 </style>
 
 <template>
-  <div class="editor">
-    <!--    <editor-content class="editor_content" :editor="editor"/>-->
-    <a @click="modalShow = true">Fuckkjaksjcjaskcj</a>
+  <div class="editor" @input="onInput"
+       @blur="onBlur"
+       @focus="onFocus">
+    <div @click="modalShow = true" class="input">{{editor ? editor.getHTML() : '' | truncate('50','...')}}</div>
     <modal :active.sync="modalShow" :width="640" scroll="keep">
-      <div class="card">
-        <div class="card-content">
-          <editor-content :class="{has_chil_bar: hasChildBar}" class="editor_content" :editor="editor"/>
-        </div>
-        <div class="card-footer">
-          <editor-menu-bar class="menubar" :editor="editor" v-slot="{ commands, isActive }">
-            <div class="toolbar">
-              <div class="text_toolbar" v-show="textBar">
-                <a @click="commands.bold" class="btn_menubar" :class="{ 'is-active': isActive.bold() }">
-                  <icon name="format_bold"/>
-                </a>
-                <a class="btn_menubar" :class="{ 'is-active': isActive.italic() }" @click="commands.italic">
-                  <icon name="format_italic"/>
-                </a>
-                <a class="btn_menubar" :class="{ 'is-active': isActive.strike() }" @click="commands.strike">
-                  <icon name="format_clear"/>
-                </a>
-                <a class="btn_menubar" :class="{ 'is-active': isActive.underline() }" @click="commands.underline">
-                  <icon name="underline"/>
-                </a>
-                <div class="w"></div>
-                <a class="btn_menubar" :class="{ 'is-active': isActive.bullet_list() }" @click="commands.bullet_list">
-                  <icon name="format_list_bulleted"/>
-                </a>
-                <a class="btn_menubar" :class="{ 'is-active': isActive.ordered_list() }" @click="commands.ordered_list">
-                  <icon name="format_list_numbered"/>
-                </a>
-                <a class="btn_menubar" :class="{ 'is-active': isActive.code_block() }" @click="commands.code_block">
-                  <icon name="code-24px"/>
-                </a>
-                <div class="w"></div>
-                <a class="btn_menubar" :class="{ 'is-active': isActive.todo_list() }" @click="commands.todo_list">
-                  <icon name="task"/>
-                </a>
-                <a class="btn_menubar" :class="{ 'is-active': isActive.table() }" @click="commands.createTable({rowsCount: 3, colsCount: 3, withHeaderRow: false })">
-                  <icon name="table"/>
-                </a>
-                <div style="margin: auto"></div>
-                <a class="btn_menubar" @click="commands.undo">
-                  <icon name="undo"/>
-                </a>
-                <a class="btn_menubar" @click="commands.redo">
-                  <icon name="redo"/>
-                </a>
+      <div style="height: 100%" @click="editor.focus()">
+        <editor-content :class="{has_chil_bar: hasChildBar}" class="editor_content" :editor="editor"/>
+      </div>
+      <div slot="footer" class="m-footer">
+        <editor-menu-bar class="menubar w-r" :editor="editor" v-slot="{ commands, isActive }">
+          <div class="toolbar">
+            <div class="text_toolbar" v-show="textBar">
+              <a @click="commands.bold" class="btn_menubar" :class="{ 'is-active': isActive.bold() }">
+                <icon name="format_bold"/>
+              </a>
+              <a class="btn_menubar" :class="{ 'is-active': isActive.italic() }" @click="commands.italic">
+                <icon name="format_italic"/>
+              </a>
+              <a class="btn_menubar" :class="{ 'is-active': isActive.strike() }" @click="commands.strike">
+                <icon name="format_clear"/>
+              </a>
+              <a class="btn_menubar" :class="{ 'is-active': isActive.underline() }" @click="commands.underline">
+                <icon name="underline"/>
+              </a>
+              <div class="w"></div>
+              <a class="btn_menubar" :class="{ 'is-active': isActive.bullet_list() }" @click="commands.bullet_list">
+                <icon name="format_list_bulleted"/>
+              </a>
+              <a class="btn_menubar" :class="{ 'is-active': isActive.ordered_list() }" @click="commands.ordered_list">
+                <icon name="format_list_numbered"/>
+              </a>
+              <a class="btn_menubar" :class="{ 'is-active': isActive.code_block() }" @click="commands.code_block">
+                <icon name="code-24px"/>
+              </a>
+              <div class="w"></div>
+              <a class="btn_menubar" :class="{ 'is-active': isActive.todo_list() }" @click="commands.todo_list">
+                <icon name="task"/>
+              </a>
+              <a class="btn_menubar" :class="{ 'is-active': isActive.table() }"
+                 @click="commands.createTable({rowsCount: 3, colsCount: 3, withHeaderRow: false })">
+                <icon name="table"/>
+              </a>
+              <div style="margin: auto"></div>
+              <a class="btn_menubar" @click="commands.undo">
+                <icon name="undo"/>
+              </a>
+              <a class="btn_menubar" @click="commands.redo">
+                <icon name="redo"/>
+              </a>
+            </div>
+            <div class="text_toolbar" v-show="onHasChildBar(isActive.table())">
+              <a @click="commands.deleteTable" class="btn_menubar">
+                <icon name="table_del"/>
+              </a>
+              <a @click="commands.addColumnBefore" class="btn_menubar">
+                <icon name="add_col_l"/>
+              </a>
+              <a @click="commands.addColumnAfter" class="btn_menubar">
+                <icon name="add_col_r"/>
+              </a>
+              <a @click="commands.deleteColumn" class="btn_menubar">
+                <icon name="del_col"/>
+              </a>
+              <a @click="commands.addRowBefore" class="btn_menubar">
+                <icon name="add_row_t"/>
+              </a>
+              <a @click="commands.addRowAfter" class="btn_menubar">
+                <icon name="add_row_b"/>
+              </a>
+              <a @click="commands.deleteRow" class="btn_menubar">
+                <icon name="del_row"/>
+              </a>
+            </div>
+            <div class="ext_toolbar">
+              <div class="btn_ext_toolbar" :class="{active: textBar}" @click="textBar = !textBar">
+                <icon class="ic" name="text_format" @click="commands.image"/>
+                <div class="tl">Công cụ</div>
               </div>
-              <div class="text_toolbar" v-show="onHasChildBar(isActive.table())">
-                <a @click="commands.deleteTable" class="btn_menubar">
-                  <icon name="table_del"/>
-                </a>
-                <a @click="commands.addColumnBefore" class="btn_menubar">
-                  <icon name="add_col_l"/>
-                </a>
-                <a @click="commands.addColumnAfter" class="btn_menubar">
-                  <icon name="add_col_r"/>
-                </a>
-                <a @click="commands.deleteColumn" class="btn_menubar">
-                  <icon name="del_col"/>
-                </a>
-                <a @click="commands.addRowBefore" class="btn_menubar">
-                  <icon name="add_row_t"/>
-                </a>
-                <a @click="commands.addRowAfter" class="btn_menubar">
-                  <icon name="add_row_b"/>
-                </a>
-                <a @click="commands.deleteRow" class="btn_menubar">
-                  <icon name="del_row"/>
-                </a>
+              <div class="btn_ext_toolbar">
+                <icon class="ic" name="insert_photo" @click="commands.image"/>
+                <div class="tl">Ảnh</div>
               </div>
-              <div class="ext_toolbar">
-                <div class="btn_ext_toolbar" :class="{active: textBar}" @click="textBar = !textBar">
-                  <icon class="ic" name="text_format" @click="commands.image"/>
-                  <div class="tl">Công cụ</div>
-                </div>
-                <div class="btn_ext_toolbar">
-                  <icon class="ic" name="insert_photo" @click="commands.image"/>
-                  <div class="tl">Ảnh</div>
-                </div>
-                <div class="btn_ext_toolbar">
-                  <icon name="link" @click="commands.link"/>
-                  <div class="tl">Chèn link</div>
-                </div>
-                <div class="btn_ext_toolbar">
-                  <icon name="grin" @click="commands.link"/>
-                  <div class="tl">Cảm xúc</div>
-                </div>
+              <div class="btn_ext_toolbar">
+                <icon name="link" @click="commands.link"/>
+                <div class="tl">Chèn link</div>
+              </div>
+              <div class="btn_ext_toolbar">
+                <icon name="grin" @click="commands.link"/>
+                <div class="tl">Cảm xúc</div>
               </div>
             </div>
-          </editor-menu-bar>
-        </div>
+          </div>
+        </editor-menu-bar>
       </div>
     </modal>
 
@@ -341,7 +341,30 @@
 </template>
 
 <script>
-  import {Blockquote, Bold, BulletList, Code, CodeBlock, HardBreak, Heading, History, HorizontalRule, Image, Italic, Link, ListItem, OrderedList, Strike, Table, TableCell, TableHeader, TableRow, TodoItem, TodoList, Underline} from 'tiptap-extensions';
+  import {
+    Blockquote,
+    Bold,
+    BulletList,
+    Code,
+    CodeBlock,
+    HardBreak,
+    Heading,
+    History,
+    HorizontalRule,
+    Image,
+    Italic,
+    Link,
+    ListItem,
+    OrderedList,
+    Strike,
+    Table,
+    TableCell,
+    TableHeader,
+    TableRow,
+    TodoItem,
+    TodoList,
+    Underline,
+  } from 'tiptap-extensions';
   import {Editor, EditorContent, EditorMenuBar} from 'tiptap';
   import {Icon, Modal} from './';
 
@@ -383,39 +406,24 @@
       Modal,
       Icon,
     },
+    props: {
+      value: [Number, String],
+    },
     data() {
       return {
         hasChildBar: false,
         modalShow: false,
-        editor: new Editor({
-          extensions: EXTENSIONS,
-          onFocus: this.onFocus,
-          onUpdate: this.onUpdate,
-          content: `
-          <h2>
-            Hi there,
-          </h2>
-          <p>
-            this is a very <em>basic</em> example of tiptap.
-          </p>
-          <pre><code>body { display: none; }</code></pre>
-          <ul>
-            <li>
-              A regular list
-            </li>
-            <li>
-              With regular items
-            </li>
-          </ul>
-          <blockquote>
-            It's amazing 👏
-            <br />
-            – mom
-          </blockquote>
-        `,
-        }),
+        editor: null,
         textBar: true,
       };
+    },
+    mounted() {
+      this.editor = new Editor({
+        extensions: EXTENSIONS,
+        onFocus: this.onFocus,
+        onUpdate: this.onUpdate,
+        content: this.value,
+      });
     },
     computed: {},
     methods: {
@@ -423,11 +431,23 @@
         this.hasChildBar = val;
         return this.hasChildBar;
       },
+      onInput(event) {
+        this.$nextTick(() => {
+          if (event.target) {
+            this.computedValue = event.target.value;
+          }
+        });
+      },
+      onBlur(val) {
+        this.$emit('blur', val);
+      },
       onFocus(val) {
         this.modalShow = true;
+        this.$emit('focus', val);
       },
-      onUpdate(val){
-      }
+      onUpdate(val) {
+        this.$emit('input', val.getHTML());
+      },
     },
     beforeDestroy() {
       this.editor.destroy();

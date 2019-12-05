@@ -5,6 +5,9 @@ import store from './store';
 
 require('./config');
 require('../dist/app.css');
+require('./helper_filter');
+
+
 
 export const bus = new Vue();
 new Vue({
