@@ -431,13 +431,6 @@
         this.hasChildBar = val;
         return this.hasChildBar;
       },
-      onInput(event) {
-        this.$nextTick(() => {
-          if (event.target) {
-            this.computedValue = event.target.value;
-          }
-        });
-      },
       onBlur(val) {
         this.$emit('blur', val);
       },

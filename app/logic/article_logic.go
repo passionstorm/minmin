@@ -25,7 +25,7 @@ func (m articleLogic) FindById(id int) (*models.Article, error) {
 }
 
 func (articleLogic) GetAll() models.ArticleSlice {
-	rs, _ := models.Articles().All(context.Background(), db)
+	rs, _ := models.Articles(qm.OrderBy("updated_at DESC, created_at DESC, id DESC")).All(context.Background(), db)
 	for _, val := range rs {
 		val.Content = html.UnescapeString(val.Content)
 		val.ImageThumb = null.StringFrom("https://via.placeholder.com/100/ccc")

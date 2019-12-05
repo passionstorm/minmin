@@ -41,30 +41,30 @@
           </field>
         </div>
       </collapse>
-<!--      <collapse aria-id="colaps.seo" class="card card-primary" :open.sync="colaps.seo.open">-->
-<!--        <div slot="trigger" class="card-header" role="button" slot-scope="props" aria-controls="colaps.seo">-->
-<!--          <div class="card-header-title">-->
-<!--            Seo-->
-<!--          </div>-->
-<!--          <a class="card-header-icon">-->
-<!--            <icon :name="props.open ? 'arrow_down' : 'arrow_right'"/>-->
-<!--          </a>-->
-<!--        </div>-->
-<!--        <div class="card-body">-->
-<!--          <field class="col-sm-10" label="Tiêu đề">-->
-<!--            <v-input v-model="form.seo.title" type="textarea" maxlength="60"/>-->
-<!--          </field>-->
-<!--          <field class="col-sm-10" label="Mô tả ngắn">-->
-<!--            <v-input v-model="form.seo.description" type="textarea" maxlength="100"/>-->
-<!--          </field>-->
-<!--          <field label="Từ khoá tìm kiếm" class="col-sm-10">-->
-<!--            <taginput :allow-new="true" :data="filterSeoTags" autocomplete field="content" v-model="form.seo.tags"-->
-<!--                      icon="label" @add="onAddSeoTag" @typing="onTypeSeoTags"-->
-<!--                      placeholder="Nhập từ khoá"-->
-<!--            ></taginput>-->
-<!--          </field>-->
-<!--        </div>-->
-<!--      </collapse>-->
+      <!--      <collapse aria-id="colaps.seo" class="card card-primary" :open.sync="colaps.seo.open">-->
+      <!--        <div slot="trigger" class="card-header" role="button" slot-scope="props" aria-controls="colaps.seo">-->
+      <!--          <div class="card-header-title">-->
+      <!--            Seo-->
+      <!--          </div>-->
+      <!--          <a class="card-header-icon">-->
+      <!--            <icon :name="props.open ? 'arrow_down' : 'arrow_right'"/>-->
+      <!--          </a>-->
+      <!--        </div>-->
+      <!--        <div class="card-body">-->
+      <!--          <field class="col-sm-10" label="Tiêu đề">-->
+      <!--            <v-input v-model="form.seo.title" type="textarea" maxlength="60"/>-->
+      <!--          </field>-->
+      <!--          <field class="col-sm-10" label="Mô tả ngắn">-->
+      <!--            <v-input v-model="form.seo.description" type="textarea" maxlength="100"/>-->
+      <!--          </field>-->
+      <!--          <field label="Từ khoá tìm kiếm" class="col-sm-10">-->
+      <!--            <taginput :allow-new="true" :data="filterSeoTags" autocomplete field="content" v-model="form.seo.tags"-->
+      <!--                      icon="label" @add="onAddSeoTag" @typing="onTypeSeoTags"-->
+      <!--                      placeholder="Nhập từ khoá"-->
+      <!--            ></taginput>-->
+      <!--          </field>-->
+      <!--        </div>-->
+      <!--      </collapse>-->
     </form>
     <modal v-model="modal.reset">
       <template slot="header">
@@ -88,13 +88,12 @@
   const defaultForm = {
     status: '1',
     seo: {},
-    title: '', // 文章题目
-    content: `<p>Hellookkkjkkj</p>`, // 文章内容
-    desc: '', // 文章摘要
-    source_uri: '', // 文章外链
-    image_uri: '', // 文章图片
-    categories: [],
-    display_time: undefined, // 前台展示时间
+    title: '',
+    content: undefined,
+    desc: '',
+    source_uri: '',
+    image_uri: '',
+    display_time: undefined,
     id: undefined,
     comment_disabled: false,
     importance: 0,
@@ -162,7 +161,7 @@
         this.modal.reset = false;
       },
       async onSubmit() {
-        axios.post('post/create', this.form)
+        axios.post('post/create', this.form);
       },
       async onAddSeoTag(text) {
       },
@@ -172,6 +171,7 @@
     mounted() {
       if (this.id) {
         axios.get('post/edit/' + this.id).then(res => {
+          console.log(res.data);
           this.form = res.data;
           this.form.seo = {};
         });
