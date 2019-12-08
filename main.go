@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"github.com/joho/godotenv"
 	"github.com/kataras/iris/v12"
-	"github.com/kataras/iris/v12/middleware/logger"
 	"github.com/kataras/iris/v12/middleware/recover"
 	"github.com/kataras/iris/v12/mvc"
 	"github.com/kataras/iris/v12/view"
@@ -25,7 +24,7 @@ func die(err error) {
 func main() {
 	app := iris.New()
 	app.Use(recover.New())
-	app.Use(logger.New())
+	//app.Use(logger.New())
 	app.OnErrorCode(iris.StatusInternalServerError, func(ctx iris.Context) {
 		ctx.HTML("Message: <b>" + ctx.Values().GetString("message") + "</b>")
 	})
@@ -58,7 +57,6 @@ func main() {
 	err = app.Run(iris.Addr(port))
 	die(err)
 }
-
 
 func registerLogic(app *mvc.Application) {
 	app.Register(logic.NewUploadLogic())

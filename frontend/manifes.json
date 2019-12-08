@@ -1,56 +1,56 @@
 {
-    "hash": "a2247b8bf0fe3d96c333",
+    "hash": "46b9d5f19b89472b5c09",
     "assets": [
         {
-            "name": "0.3fb0ba20de99fb108b80.js",
-            "s": "751 KB"
+            "name": "0.497ac1686731aa2fa69d.js",
+            "s": "746 KB"
         },
         {
-            "name": "1.b2e158a173359cc3375f.js",
+            "name": "1.0a780ec3904888f8e017.js",
             "s": "44 KB"
         },
         {
-            "name": "2.292d0b508cb01ac98102.js",
-            "s": "57 KB"
+            "name": "2.07220b5217d1d6c90970.js",
+            "s": "56 KB"
         },
         {
-            "name": "3.424ee6d847f11085d382.js",
+            "name": "3.c7457f47747e544fcac2.js",
             "s": "29 KB"
         },
         {
-            "name": "4.4cc482d3b9e16c30a2d4.js",
+            "name": "4.93eff56280d81a2e6a87.js",
             "s": "43 KB"
         },
         {
-            "name": "5.cfb6a86b20ae79066a89.js",
-            "s": "32 KB"
+            "name": "5.5f597a298ccc5fd6f568.js",
+            "s": "36 KB"
         },
         {
-            "name": "6.14a23ac5b5c44c203db3.js",
+            "name": "6.d9b16d124c0a2404a916.js",
             "s": "24 KB"
         },
         {
-            "name": "7.5c933199314afdade9c0.js",
+            "name": "7.673dc7177b4a16cab3f5.js",
+            "s": "46 KB"
+        },
+        {
+            "name": "8.ac6055e4173081f05d1a.js",
             "s": "12 KB"
         },
         {
-            "name": "8.1076200943f5e312c145.js",
+            "name": "9.32b6c9a08643534e17a3.js",
             "s": "14 KB"
         },
         {
-            "name": "9.4f5928ecadc33b3773e0.js",
-            "s": "43 KB"
+            "name": "admin.a509656997d0ae4a62de.js",
+            "s": "1430 KB"
         },
         {
-            "name": "admin.03cc1c485b491a091711.js",
-            "s": "1291 KB"
-        },
-        {
-            "name": "runtime.a2247b8bf0fe3d96c333.js",
+            "name": "runtime.46b9d5f19b89472b5c09.js",
             "s": "35 KB"
         },
         {
-            "name": "vendors.1ff49102d4c88c1d5bbe.js",
+            "name": "vendors.08ffc8d9a7db08bcbcd6.js",
             "s": "4933 KB"
         }
     ]

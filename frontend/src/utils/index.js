@@ -54,6 +54,11 @@ export const isMobile = {
   }
 }
 
+export function htmlDecode(input) {
+  var doc = new DOMParser().parseFromString(input, "text/html");
+  return doc.documentElement.textContent;
+}
+
 const mergeFn = (target, source, deep = false) => {
   if (deep || !Object.assign) {
     const isDeep = (prop) =>

@@ -15,10 +15,23 @@ type ArticleLogic interface {
 	InsertOrUpd(ctx iris.Context, form *PostForm) error
 	Insert(ctx iris.Context, form *PostForm) error
 	GetAll() models.ArticleSlice
+	Delete(id int) error
 	FindById(id int) (*models.Article, error)
 }
 
 type articleLogic struct{}
+
+func (m articleLogic) Delete(id int) error {
+	e, err := models.FindArticle(context.Background(), db, id)
+	if err != nil {
+		return err
+	}
+	_, err = e.Delete(context.Background(), db)
+	if err != nil {
+		return err
+	}
+	return err
+}
 
 func (m articleLogic) FindById(id int) (*models.Article, error) {
 	return models.Articles(qm.Where("id =?", id)).One(context.Background(), db)
@@ -27,7 +40,7 @@ func (m articleLogic) FindById(id int) (*models.Article, error) {
 func (articleLogic) GetAll() models.ArticleSlice {
 	rs, _ := models.Articles(qm.OrderBy("updated_at DESC, created_at DESC, id DESC")).All(context.Background(), db)
 	for _, val := range rs {
-		val.Content = html.UnescapeString(val.Content)
+		//val.Content = html.UnescapeString(val.Content)
 		val.ImageThumb = null.StringFrom("https://via.placeholder.com/100/ccc")
 	}
 	return rs
@@ -50,7 +63,7 @@ func (m articleLogic) InsertOrUpd(ctx iris.Context, form *PostForm) error {
 			return err
 		}
 		e.Title = form.Title
-		e.Content = html.EscapeString(form.Content)
+		//e.Content = html.EscapeString(form.Content)
 
 		_, err = e.Update(bg, db, boil.Infer())
 		return err

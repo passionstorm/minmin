@@ -10,7 +10,9 @@
         <div class="navbar_link">{{title}}</div>
       </div>
       <div class="navbar_item">
-        <div class="navbar_link">Righ bar</div>
+        <div class="navbar_link">
+
+        </div>
       </div>
     </div>
   </nav>

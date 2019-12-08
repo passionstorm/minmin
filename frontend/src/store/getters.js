@@ -1,5 +1,6 @@
 const getters = {
   sidebarOpen: state => state.app.sidebarOpen,
+  isLoading: state => state.app.isLoading,
   permission_routes: state => state.permission.routes,
   visitedViews: state => state.tag_view.visitedViews,
   cachedViews: state => state.tag_view.cachedViews,

@@ -38,3 +38,11 @@ func (c *PostController) PostCreate(ctx iris.Context, db logic.ArticleLogic) {
 
 	c.Success(iris.StatusOK, nil)
 }
+
+func (c *PostController) DeleteBy(id int, ctx iris.Context, db logic.ArticleLogic){
+	if err := db.Delete(id); err != nil {
+		httputil.FailJSON(ctx, 500, err, "Can't delete")
+	}else{
+		c.Success(200, db.GetAll())
+	}
+}

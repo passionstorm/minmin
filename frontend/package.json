@@ -9,7 +9,8 @@
     "watch:jsAd": "webpack -w --config ./admin/webpack.config.js",
     "build:jsAd": "cross-env NODE_ENV=production webpack --config ./webpack.config.js --progress",
     "build:cssAd": "node-sass --output-style compressed ./scss/app.scss ./dist/app.css",
-    "dev": "cross-env NODE_ENV=development webpack-dev-server --inline --progress --config ./webpack.config.js",
+    "dev:admin": "cross-env NODE_ENV=development webpack-dev-server --inline --progress --config ./webpack_ad.config.js",
+    "dev:front": "cross-env NODE_ENV=development webpack-dev-server --inline --progress --config ./webpack_front.config.js",
     "watch": "npm-run-all watch:*",
     "build": "npm-run-all build:*"
   },
@@ -49,6 +50,7 @@
     "vue-loader": "^15.7.2",
     "vue-style-loader": "^4.1.2",
     "vue-template-compiler": "^2.6",
+    "vue-server-renderer": "^2.6.10",
     "webpack": "^4.41.2",
     "webpack-cli": "^3.3.10",
     "webpack-dev-server": "^3.9.0",

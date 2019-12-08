@@ -1,14 +1,5 @@
-<style>
-  .editor .ProseMirror {
-    box-shadow: inset 0 1px 2px rgba(10, 10, 10, 0.1);
-    max-width: 100%;
-    width: 100%;
-    background-color: white;
-    border-color: #dbdbdb;
-    border-radius: 4px;
-    color: #363636;
-    padding: 10px;
-  }
+<style scoped>
+
 
   .editor .menubar {
     display: flex;
@@ -104,10 +95,6 @@
     margin: 4px;
   }
 
-  /*.editor .btn_ext_toolbar:not(:first-child) {*/
-  /*  margin-left: 8px;*/
-  /*}*/
-
   .editor .btn_ext_toolbar .ic {
     width: 20px;
     height: 20px;
@@ -178,6 +165,7 @@
   .content table tbody tr:last-child th {
     border-bottom-width: 1px;
   }
+
   .editor_content table .selectedCell:after {
     z-index: 2;
     position: absolute;
@@ -214,24 +202,12 @@
     width: 100%;
     position: fixed;
     bottom: 20px;
-    max-width: 960px;
+    max-width: 700px;
     background: #fff;
   }
 
   .text_toolbar, .menubar, .ext_toolbar {
     width: 100%;
-  }
-
-  .modal-content {
-    background: #fff;
-    max-width: 960px !important;
-    height: calc(100vh - 218px);
-    max-height: 100vh;
-  }
-
-  .modal {
-    justify-content: inherit;
-    padding-top: 3em;
   }
 
   .w-r {
@@ -241,10 +217,10 @@
 </style>
 
 <template>
-  <div class="editor" @input="onInput"
+  <div class="editor"
        @blur="onBlur"
        @focus="onFocus">
-    <div @click="modalShow = true" class="input">{{editor ? editor.getHTML() : '' | truncate('50','...')}}</div>
+    <div @click="focus" class="input">{{shortText | truncate('50','...')}}</div>
     <modal :active.sync="modalShow" :width="640" scroll="keep">
       <div style="height: 100%" @click="editor.focus()">
         <editor-content :class="{has_chil_bar: hasChildBar}" class="editor_content" :editor="editor"/>
@@ -341,30 +317,7 @@
 </template>
 
 <script>
-  import {
-    Blockquote,
-    Bold,
-    BulletList,
-    Code,
-    CodeBlock,
-    HardBreak,
-    Heading,
-    History,
-    HorizontalRule,
-    Image,
-    Italic,
-    Link,
-    ListItem,
-    OrderedList,
-    Strike,
-    Table,
-    TableCell,
-    TableHeader,
-    TableRow,
-    TodoItem,
-    TodoList,
-    Underline,
-  } from 'tiptap-extensions';
+  import {Blockquote, Bold, BulletList, Code, CodeBlock, HardBreak, Heading, History, HorizontalRule, Image, Italic, Link, ListItem, OrderedList, Strike, Table, TableCell, TableHeader, TableRow, TodoItem, TodoList, Underline} from 'tiptap-extensions';
   import {Editor, EditorContent, EditorMenuBar} from 'tiptap';
   import {Icon, Modal} from './';
 
@@ -415,6 +368,8 @@
         modalShow: false,
         editor: null,
         textBar: true,
+        shortText: null,
+        emitAfterUpd: false,
       };
     },
     mounted() {
@@ -425,7 +380,16 @@
         content: this.value,
       });
     },
-    computed: {},
+    watch: {
+      value(val) {
+        if (this.emitAfterUpd) {
+          this.emitAfterUpd = false;
+          return;
+        }
+        this.shortText = val;
+        this.editor.setContent(val);
+      },
+    },
     methods: {
       onHasChildBar(val) {
         this.hasChildBar = val;
@@ -434,11 +398,17 @@
       onBlur(val) {
         this.$emit('blur', val);
       },
+      focus(){
+        this.modalShow = true;
+        this.editor.focus()
+      },
       onFocus(val) {
         this.modalShow = true;
         this.$emit('focus', val);
       },
       onUpdate(val) {
+        this.emitAfterUpd = true;
+        this.shortText = val.getHTML()
         this.$emit('input', val.getHTML());
       },
     },

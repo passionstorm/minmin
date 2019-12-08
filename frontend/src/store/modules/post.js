@@ -1,3 +1,5 @@
+import {msg} from '../../utils/msg';
+
 const state = {
   item: {},
   items: [],
@@ -27,6 +29,9 @@ const actions = {
   },
   get({commit}, payload) {
     axios.get('post/edit/' + payload).then(res => commit('ITEM', res.data)).catch(err => commit('ERRORS', err));
+  },
+  del({commit}, id) {
+
   },
   create() {
   },

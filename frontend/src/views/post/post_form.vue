@@ -20,7 +20,7 @@
         </div>
         <div class="card-body">
           <field class="col-sm-10" label="Tiêu đề" required="required">
-            <v-input vid="title" rules="required" maxlength="30" v-model="form.title" type="'text'" title="Tiêu đề*"
+            <v-input vid="title" rules="required" v-model="form.title" type="'text'" title="Tiêu đề*"
                      placeholder="Tiêu đề"/>
           </field>
           <field class="col-sm-10" label="Nội dung">
@@ -84,6 +84,8 @@
 <script>
   import {Check, Collapse, Editor, Field, Icon, Modal, Pin, Taginput, Upload, VInput, VSelect} from '../../widgets';
   import {mapState} from 'vuex';
+  import {htmlDecode} from '../../utils';
+  import {msg} from '../../utils/msg';
 
   const defaultForm = {
     status: '1',
@@ -103,7 +105,7 @@
       VInput, Field, Pin, VSelect, Modal, Check, Taginput, Collapse, Icon, Upload, Editor,
     },
     props: {
-      id: Number,
+      id: [Number, String],
     },
     data() {
       return {
@@ -160,8 +162,15 @@
         this.form = Object.assign({}, defaultForm);
         this.modal.reset = false;
       },
-      async onSubmit() {
-        axios.post('post/create', this.form);
+      onSubmit() {
+        axios.post('post/create', this.form).then(rs => {
+          if (rs.data.success) {
+            msg.success(this.id ? 'Cập nhật thành công!' : 'Thêm mới thành công!');
+            this.$router.push({name: 'post_index'});
+          } else {
+            msg.success(this.id ? 'Cập nhật thất !' : 'Thêm mới thất bại!');
+          }
+        }).catch(err => msg.fail(err));
       },
       async onAddSeoTag(text) {
       },
@@ -173,6 +182,7 @@
         axios.get('post/edit/' + this.id).then(res => {
           console.log(res.data);
           this.form = res.data;
+          this.form.content = htmlDecode(this.form.content);
           this.form.seo = {};
         });
       }

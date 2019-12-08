@@ -6,8 +6,9 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
-
+const VueSSRPlugin = require('./src/plugins/vue-ssr-webpack-plugin');
 const ManifestPlugin = require('./src/plugins/manifest-plugin');
+const VueSSRClientPlugin = require('vue-server-renderer/client-plugin');
 const dotenv = require('dotenv');
 const fs = require('fs');
 
@@ -17,8 +18,7 @@ const resolve = dir => {
 const env = dotenv.config({path: resolve('../.env')}).parsed;
 const mode = process.env.NODE_ENV;
 const isDev = mode === 'development';
-const iconFiles = fs.readdirSync(resolve('src/assets/images/icons'));
-const icons = iconFiles.map(e => e.replace(/\.[^/.]+$/, ''));
+
 module.exports = {
   mode: mode,
   devtool: 'cheap-eval-source-map',
@@ -37,7 +37,6 @@ module.exports = {
   },
   plugins: [
     new webpack.DefinePlugin({
-      'ICON_LIST': JSON.stringify(icons),
       'API_URL': JSON.stringify(env.API_URL),
       'ADMIN_URL': JSON.stringify(env.ADMIN_URL),
       'STATIC_URL': JSON.stringify(env.STATIC_URL),
@@ -45,9 +44,9 @@ module.exports = {
     new webpack.HashedModuleIdsPlugin(), // so that file hashes don't change unexpectedly
     new webpack.HotModuleReplacementPlugin(),
     new VueLoaderPlugin(),
-    new ManifestPlugin({
-      outputPath: resolve('/'),
-    }),
+    // new ManifestPlugin({
+    //   outputPath: resolve('/'),
+    // }),
     new HtmlWebpackPlugin({
       // filename: resolve( 'index.html'),
       template: resolve('index.html'),
@@ -71,16 +70,16 @@ module.exports = {
     historyApiFallback: true,
     hot: true,
     overlay: {warnings: true, errors: true},
-    compress: true,
-    port: 8080,
+    // compress: true,
+    port: 8081,
   },
   entry: {
-    'admin': './src/main.js',
+    'front/main': './src/modules/frontpage/main.js',
     // vendors: ['vue', 'vuex', 'core-js', 'vue-router', 'axios'],
   },
   output: {
     publicPath: '/',
-    path: resolve('../public/dist/admin'),
+    path: resolve('../public/spa/admin'),
     filename: '[name].[hash].js',
     chunkFilename: '[name].[contenthash].js',
   },
@@ -167,6 +166,7 @@ if (process.env.NODE_ENV === 'production') {
         minRatio: 0.8,
         deleteOriginalAssets: false,
       }),
+      new VueSSRClientPlugin({}),
       // new BrotliPlugin({
       //   filename: '[path].br[query]',
       //   algorithm: 'brotli',

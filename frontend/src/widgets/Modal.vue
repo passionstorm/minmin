@@ -15,6 +15,7 @@
           class="animation-content"
           :class="{ 'modal-content': !hasModalCard }"
           :style="customStyle">
+        <div class="modal-header"></div>
         <component
             v-if="component"
             v-bind="props"
@@ -143,6 +144,9 @@
       },
     },
     methods: {
+      onModalScroll(e){
+
+      },
       handleScroll() {
         if (typeof window === 'undefined') return;
         if (this.scroll === 'clip') {
@@ -242,3 +246,13 @@
     },
   };
 </script>
+<style scoped>
+  .modal-close{
+    position: absolute;
+    top: 0;
+    right: 10px;
+  }
+  .modal-header{
+    height: 35px; background-color: gray
+  }
+</style>

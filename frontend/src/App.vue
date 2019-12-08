@@ -1,17 +1,22 @@
 <template>
-    <div class="app">
-        <transition>
-            <router-view />
-        </transition>
-        <!-- setting drawer -->
-        <!-- global snackbar -->
-    </div>
+
+  <div class="app">
+    <transition>
+      <router-view/>
+    </transition>
+    <!-- setting drawer -->
+    <!-- global snackbar -->
+  </div>
 </template>
 
 <script>
+  // import Cubic from './components/Cubic';
+
   export default {
     name: 'App',
-    components: {},
+    components: {
+      // Cubic,
+    },
     data() {
       return {
         rightDrawer: false,
@@ -22,13 +27,17 @@
         },
       };
     },
+    computed: {
+
+    },
     created() {
+
     },
     methods: {},
   };
 </script>
 <style>
-    .container {
-        display: flex;
-    }
+  .container {
+    display: flex;
+  }
 </style>

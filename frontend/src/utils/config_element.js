@@ -8,7 +8,7 @@ let config = {
   defaultDialogCancelText: null,
   defaultSnackbarDuration: 3500,
   defaultSnackbarPosition: null,
-  defaultToastDuration: 2000,
+  defaultToastDuration: 4000,
   defaultToastPosition: null,
   defaultNotificationDuration: 2000,
   defaultNotificationPosition: null,

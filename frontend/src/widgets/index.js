@@ -18,6 +18,7 @@ import Taglist from './tag/Taglist';
 import Taginput from './Taginput';
 import Upload from './Upload';
 import Editor from './Editor';
+import Toast from './toast/Toast';
 
 export {
   Pin,
@@ -38,6 +39,7 @@ export {
   Tag,
   Taglist,
   Taginput,
+  Toast,
   Upload,
   Editor,
 };

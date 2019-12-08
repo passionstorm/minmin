@@ -18,7 +18,7 @@
   import config from '../../utils/config_element'
   import NoticeMixin from '../mixins/notice.mixin'
   export default {
-    name: 'VToast',
+    name: 'Toast',
     mixins: [NoticeMixin],
     data() {
       return {
@@ -27,3 +27,8 @@
     }
   }
 </script>
+<style scoped>
+  .notices{
+    padding: 0 2em;
+  }
+</style>

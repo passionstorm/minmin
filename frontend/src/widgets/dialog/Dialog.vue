@@ -74,7 +74,7 @@
   import {removeElement} from '../../utils';
 
   export default {
-    name: 'VDialog',
+    name: 'Dialog',
     components: {
       Icon
     },

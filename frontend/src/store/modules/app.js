@@ -1,9 +1,13 @@
+import {push} from '../../utils';
+
 const types = {
   TOGGLE_SIDEBAR: 'TOGGLE_SIDEBAR',
 };
 
+let _asyncRoutes = [];
 const state = {
   sidebarOpen: true,
+  isLoading: false,
 };
 
 const loadState = () => {
@@ -37,6 +41,9 @@ const mutations = {
   [types.TOGGLE_SIDEBAR](state) {
     state.sidebarOpen = !state.sidebarOpen;
   },
+  loading(state, data){
+    state.isLoading = data
+  }
 };
 
 export default {

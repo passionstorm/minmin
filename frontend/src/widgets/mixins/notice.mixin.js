@@ -99,7 +99,7 @@ export default {
       if (this.shouldQueue()) {
         // Call recursively if should queue
         // setTimeout(() => this.showNotice(), 250);
-        setTimeout(() => this.showNotice(), 250);
+        setTimeout(() => this.showNotice(), 500);
         return;
       }
       this.correctParent.insertAdjacentElement('afterbegin', this.$el);

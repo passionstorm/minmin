@@ -19,7 +19,7 @@ func Load() {
 	host := os.Getenv("DB_HOST")
 	dbname := os.Getenv("DB_NAME")
 	var err error
-	dsn := user + ":" + pass + "@tcp(" + host + ":3306)/" + dbname + "?parseTime=true&loc=Asia%2FTokyo"
+	dsn := user + ":" + pass + "@tcp(" + host + ":3306)/" + dbname + "?charset=utf8mb4&parseTime=true&loc=Asia%2FTokyo"
 	db, err = sql.Open("mysql", dsn)
 	if err != nil {
 		panic(err)
