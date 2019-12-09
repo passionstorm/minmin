@@ -1,0 +1,14 @@
+@media screen and (max-width: 980px) {
+    #mainarea {
+        width: 100%;
+    }
+}
+
+#mainarea {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+#mainarea main{
+    width: calc(100% - 164px);
+}
