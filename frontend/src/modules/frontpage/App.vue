@@ -20,7 +20,7 @@
 
 <style scoped>
   .left_bar {
-    width: 164px;
+    width: 200px;
     flex-shrink: 0;
     position: relative !important;
     z-index: 1000;
