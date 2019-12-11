@@ -4,7 +4,6 @@
       <ShopCard v-for="(i, idx) in listShop" :key="idx" :item="i"/>
     </div>
   </div>
-
 </template>
 
 <script>

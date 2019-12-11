@@ -14,15 +14,17 @@
         </dl>
       </li>
     </ul>
+    <ShopPagePostList/>
   </div>
 </template>
 
 <script>
+  import ShopPagePostList from './ShopPagePostList';
   import Icon from '../../../../widgets/Icon';
   export default {
     name: 'ShopPageInfo',
     components:{
-      Icon
+      Icon, ShopPagePostList
     },
     data() {
       return {
