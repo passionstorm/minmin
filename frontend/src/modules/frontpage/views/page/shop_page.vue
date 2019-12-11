@@ -27,8 +27,7 @@
 </script>
 
 <style scoped>
-  .main {
-  }
+
 
   .shop_page_header {
     display: flex;
