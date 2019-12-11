@@ -1,6 +1,6 @@
-@media screen and (max-width: 980px) {
-    #mainarea {
-        width: 100%;
+@media only screen and (max-width: 768px) {
+    #mainarea main{
+        width: 100% !important;
     }
 }
 
@@ -9,7 +9,17 @@
     justify-content: center;
     flex-wrap: wrap;
 }
-#mainarea main{
+
+#mainarea main {
     width: calc(100% - 164px);
     max-width: 750px;
+}
+
+dl {
+    display: -ms-flexbox;
+    display: flex;
+}
+
+dt{
+    font-weight: bold;
 }

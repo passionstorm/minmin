@@ -27,37 +27,47 @@
         </span>
           <span class="n_rate">({{item.count_review}})</span>
         </div>
-        <div class="addr">
-          {{item.addr}}
-        </div>
         <ul class="attr">
           <li class="attr_l">
-            <div class="attr_i">
-              <div class="attr_i_name">
-                Đỗ xe miễn phí
-              </div>
-            </div>
+            <dl class="attr_i">
+              <dt>
+                <icon name="location" size="m"/>
+              </dt>
+              <dd>
+                {{item.attr.loc}}
+              </dd>
+            </dl>
           </li>
           <li class="attr_l">
             <dl class="attr_i">
               <dt>
-                <i class="fa fa-subway" aria-hidden="true"></i><span>Giờ làm việc</span>
+                <icon name="time" size="m"/>
               </dt>
               <dd>
-                Đỗ xe miễn phí
+                {{item.attr.time}}
               </dd>
             </dl>
           </li>
         </ul>
       </div>
+
     </div>
+    <dl class="box_intro" v-if="item.desc">
+      <dt>{{item.desc.title}}</dt>
+      <dd>{{item.desc.content}}</dd>
+    </dl>
   </div>
 </template>
 
 <script>
+  import Icon from '../../../../widgets/Icon';
+
   export default {
     props: {
       item: Object,
+    },
+    components: {
+      Icon,
     },
     name: 'ShopCard',
   };
@@ -66,6 +76,21 @@
 <style scoped>
   .shop_i {
     margin: 8px 0;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  }
+
+  .attr_i dt {
+    min-width: 16px;
+  }
+
+  .attr_i dt .icon svg {
+    width: 1.2rem !important;
+    height: 1.2rem;
+  }
+
+  .attr_i dd {
+    display: flex;
+    align-items: center;
   }
 
   .layout_head {
@@ -77,9 +102,15 @@
   .main_title {
     color: #007bff;
     font-weight: bold;
-    font-size: 1.5rem;
-    line-height: 2rem;
+    font-size: 1.25rem;
+    line-height: 1.5rem;
     letter-spacing: 0;
+  }
+
+  .box_intro {
+    background-color: #f5f5f5;
+    flex-direction: column;
+    padding: 10px;
   }
 
   .im_thumb {
@@ -98,13 +129,17 @@
     height: 48px;
   }
 
+  .attr_i dt {
+    flex-shrink: 0;
+    font-weight: bold;
+  }
+
   .sh_card {
     display: flex;
-    border-radius: 8px;
     overflow: hidden;
+    margin-top: 2px;
     border: 1px solid rgba(0, 0, 0, .12);
     box-sizing: border-box;
-    margin: 4px;
   }
 
   .sh_card .im img {
@@ -115,11 +150,12 @@
   .sh_card .ct {
     display: flex;
     flex-direction: column;
+    flex: 1;
     padding: 10px;
   }
 
   .review {
-    font-size: 1.5rem;
+    font-size: 1rem;
   }
 
   .review .p_star {
@@ -129,8 +165,6 @@
 
   .sh_card .ct .t {
     color: #222;
-    font-size: 16px;
-    line-height: 20px;
   }
 
   .sh_card .im {
@@ -141,10 +175,10 @@
   ._star span {
     background-repeat: repeat-x;
     display: block;
-    background-size: 24px 23px;
-    height: 23px;
+    background-size: 20px 19px;
+    height: 19px;
     top: 1px;
-    width: 120px;
+    width: 100px;
     background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACoAAAAmCAMAAACF3/kSAAAARVBMVEUAAADncRvncRvncRvncRvncRvncRvncRvncRvncRvncRvncRvncRvncRvncRvncRvncRvncRvncRvncRvncRvncRvncRvQdmh2AAAAFnRSTlMAEDAg71CgQJDg8HBvYMDPv4/fr3+fs8YwdQAAANlJREFUeF6Nk9uOgCAMBS0g4hVve/7/UzdrE2NXqJ3neSmHad4QqDEyo7WqEdGqDhiMZgfA2dQEINnUHkBvMj3+8BZ1vNTRoi6XuhhMAkOWqZjZMhUTLVMxpcHagG8CfyC/4ov1fuYTOufjFrcr4i7/Dm2osZHxulAKgkrXrZXRppc5NTUcJE5LRdJpqUiSloqkV1OReC0VyailIlnUVCSkp4LDH2Awq6mE6TFc1FLJPJHLnI0y1XZH/nO5bW2q0P2PLlWmOkhOksuDOb5HchZ/15hd6YD9Mdgvr0crAhbtroEAAAAASUVORK5CYII=);
   }
 
@@ -158,30 +192,23 @@
     display: inline-block;
     overflow: hidden;
     position: relative;
-    background-size: 24px 23px;
-    height: 23px;
+    background-size: 20px 19px;
+    height: 19px;
     top: 1px;
-    width: 120px;
+    width: 100px;
   }
 
   .attr {
-    font-size: 1.2rem;
-    line-height: 1.6rem;
+    margin-top: 4px;
+    font-size: 12px;
+    line-height: 1.2;
   }
 
-  .attr_l {
-    margin: 0 0 5px;
-  }
-
-  .n_rate {
-
-  }
 
   .attr_l {
     color: #757575;
     overflow: hidden;
     word-break: break-word;
-    font-size: 12px;
-    line-height: 16px;
+    margin: 0 0 8px;
   }
 </style>
