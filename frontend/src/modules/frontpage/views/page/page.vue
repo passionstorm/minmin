@@ -1,6 +1,5 @@
 <template>
   <main>
-    <h1>Hello</h1>
     <ShopListCard/>
   </main>
 

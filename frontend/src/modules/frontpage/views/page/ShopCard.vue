@@ -3,7 +3,7 @@
     <div class="layout_head">
       <div class="layout_head_title">
         <h2 class="main_title">
-          <a class="t">{{item.name}}</a>
+          <router-link :to="{name: 'shop_page'}" class="t">{{item.name}}</router-link>
         </h2>
       </div>
     </div>
@@ -99,15 +99,20 @@
     background-color: #E0E0E0;
   }
 
-  .main_title {
-    color: #007bff;
-    font-weight: bold;
+  .main_title a{
+    color: #007bff ;
+    font-weight: normal;
     font-size: 1.25rem;
     line-height: 1.5rem;
     letter-spacing: 0;
   }
 
+  .main_title a:hover {
+    text-decoration: underline;
+  }
+
   .box_intro {
+    margin-top: 2px;
     background-color: #f5f5f5;
     flex-direction: column;
     padding: 10px;
@@ -203,7 +208,6 @@
     font-size: 12px;
     line-height: 1.2;
   }
-
 
   .attr_l {
     color: #757575;

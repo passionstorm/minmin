@@ -1,9 +1,27 @@
-const t = {
-  path: '/',
-  name: 'page',
-  index: 1,
-  meta: {title: 'Nhân sự', icon: 'users'},
-  component: () => import('./page'),
+const t = [
+  {
+    path: '/',
+    name: 'shop_list',
+    index: 1,
+    meta: {title: 'Nhân sự', icon: 'users'},
+    component: () => import('./page'),
+  },
+  {
+    path: '/shop/1',
+    name: 'shop_page',
+    index: 1,
+    meta: {title: 'Nhân sự', icon: 'users'},
+    component: () => import('./shop_page'),
+    children: [
+      {
+        path: '/shop/1/info',
+        name: 'shop_page_info',
+        index: 1,
+        meta: {title: 'Nhân sự', icon: 'users'},
+        component: () => import('./ShopPageInfo'),
+      },
+    ],
+  },
 
-};
+];
 export default t;

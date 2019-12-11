@@ -19,6 +19,8 @@ import Taginput from './Taginput';
 import Upload from './Upload';
 import Editor from './Editor';
 import Toast from './toast/Toast';
+import Tabs from './tabs/Tabs';
+import TabItem from './tabs/TabItem';
 
 export {
   Pin,
@@ -42,4 +44,6 @@ export {
   Toast,
   Upload,
   Editor,
+  Tabs,
+  TabItem,
 };
