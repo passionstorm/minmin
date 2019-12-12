@@ -8,7 +8,7 @@
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    background-color: #ECEFF1;
+    background-color: #FAFAFA;
     color: #1d2129;
 }
 
@@ -45,6 +45,10 @@ dt {
 .bg-blue {
     background-color: #007bff;
     color: #fff;
+}
+
+.bg-d{
+    background-color: #E0E0E0 !important;
 }
 
 .bg-l {

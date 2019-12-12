@@ -1,7 +1,7 @@
 <template>
   <div class="">
     <div class="sh_page_info_basic">
-      <div class="navb bg-l navb_headl">Thông tin cơ bản</div>
+      <div class="navb bg-d navb_headl">Thông tin cơ bản</div>
       <ul class="attr card-d">
         <li class="attr_i" v-for="attr in attrs">
           <dl>

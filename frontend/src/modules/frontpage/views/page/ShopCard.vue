@@ -1,6 +1,6 @@
 <template>
   <div class="shop_i">
-    <div class="layout_head bg-l">
+    <div class="layout_head bg-d">
       <div class="layout_head_title">
         <h2 class="main_title">
           <router-link :to="{name: 'shop_page'}" class="t">{{item.name}}</router-link>

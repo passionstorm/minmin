@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="navb_headl navb bg-l">
+    <div class="navb_headl navb bg-d">
         Bài viết mới
     </div>
     <div class="post_list">

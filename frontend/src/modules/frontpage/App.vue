@@ -44,7 +44,7 @@
   }
 
   .head_area {
-    margin: 20px 0 10px 0;
+    margin: 80px 0 10px 0;
     justify-content: center;
   }
 
