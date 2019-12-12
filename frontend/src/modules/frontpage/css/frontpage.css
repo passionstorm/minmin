@@ -8,6 +8,8 @@
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
+    background-color: #ECEFF1;
+    color: #1d2129;
 }
 
 #mainarea main {

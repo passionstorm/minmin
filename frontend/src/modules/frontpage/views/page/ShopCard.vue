@@ -45,6 +45,7 @@
               </dt>
               <dd>
                 {{item.attr.time}}
+                <span style="padding-left: 8px; color: green">Đang mở cửa</span>
               </dd>
             </dl>
           </li>
@@ -157,7 +158,7 @@
     flex-direction: column;
     flex: 1;
     background-color: #fff;
-    padding: 10px;
+    padding: 10px 4px;
   }
 
   .review {
