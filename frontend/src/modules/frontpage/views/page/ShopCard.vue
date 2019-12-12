@@ -1,6 +1,6 @@
 <template>
   <div class="shop_i">
-    <div class="layout_head">
+    <div class="layout_head bg-l">
       <div class="layout_head_title">
         <h2 class="main_title">
           <router-link :to="{name: 'shop_page'}" class="t">{{item.name}}</router-link>
@@ -10,12 +10,12 @@
     <div class="sh_card">
       <div class="im">
         <div class="im_thumb">
-          <img :src="item.thumb"/>
+          <img alt="" :src="item.thumb"/>
         </div>
         <div class="im_chil">
-          <img :src="item.thumb"/>
-          <img :src="item.thumb"/>
-          <img :src="item.thumb"/>
+          <img alt="" :src="item.thumb"/>
+          <img alt="" :src="item.thumb"/>
+          <img alt="" :src="item.thumb"/>
         </div>
 
       </div>
@@ -99,8 +99,8 @@
     background-color: #E0E0E0;
   }
 
-  .main_title a{
-    color: #007bff ;
+  .main_title a {
+    color: #007bff;
     font-weight: normal;
     font-size: 1.25rem;
     line-height: 1.5rem;
@@ -156,6 +156,7 @@
     display: flex;
     flex-direction: column;
     flex: 1;
+    background-color: #fff;
     padding: 10px;
   }
 

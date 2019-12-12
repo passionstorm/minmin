@@ -1,11 +1,11 @@
 <template>
   <div>
-    <ul class="tab_router">
+    <ul class="tab_router bg-l">
       <li>
         <router-link class="tab_item" :to="{name: 'shop_page_info'}">Trang Chủ</router-link>
       </li>
       <li>
-        <router-link class="tab_item" :to="{name: 'shop_page'}">Sản phẩm</router-link>
+        <router-link class="tab_item" :to="{name: 'shop_page_prod'}">Sản phẩm</router-link>
       </li>
     </ul>
     <router-view/>
@@ -32,7 +32,6 @@
   .tab_router {
     display: flex;
     font-weight: normal;
-    background-color: #f5f5f5;
     box-shadow: 0 2px 2px 0 rgba(4, 0, 0, 0.15);
   }
 

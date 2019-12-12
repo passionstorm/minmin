@@ -1,5 +1,15 @@
 <template>
   <div>
+    <div class="head_area">
+        <div class="a_search">
+          <input class="input" type="text">
+        </div>
+        <div class="a_search_ad">
+          <select class="select">
+            <option value="Đà nẵng"></option>
+          </select>
+        </div>
+    </div>
     <div class="sh_l">
       <ShopCard v-for="(i, idx) in listShop" :key="idx" :item="i"/>
     </div>
@@ -50,6 +60,12 @@
 </script>
 
 <style scoped>
+  .a_search{
+    display: flex;
+  }
+  .head_area{
+    margin-bottom: 20px;
+  }
   .sh_l {
     display: flex;
     flex-wrap: wrap;

@@ -34,3 +34,40 @@ dt {
 .card-d:hover {
     box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2);
 }
+
+.bg-dark {
+    color: #fff;
+    background: #343a40;
+}
+
+.bg-blue {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.bg-l {
+    background-color: #e3f2fd !important;
+    color: rgba(0, 0, 0, .9);
+}
+
+.navb {
+    position: relative;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -ms-flex-align: center;
+    align-items: center;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    padding: .5rem 1rem;
+    box-shadow: 0 2px 2px 0 rgba(4, 0, 0, 0.15);
+}
+
+.navb_headl{
+    font-weight: bold;
+    color: #0d64c6;
+    padding: 10px;
+    font-size: 18px;
+    line-height: 24px;
+}

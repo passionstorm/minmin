@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div class="post_list_title">
-        Bài viết
+    <div class="navb_headl navb bg-l">
+        Bài viết mới
     </div>
     <div class="post_list">
       <ShopPagePost :key="idx" v-for="(p,idx) in posts" :item="p" />
@@ -41,8 +41,11 @@
    font-weight: bold;
    color: #0d64c6;
    padding: 10px;
-   font-size: 16px;
-   background-color: #f5f5f5;
+   font-size: 20px;
+   line-height: 24px;
    box-shadow: 0 2px 2px 0 rgba(4, 0, 0, 0.15);
  }
+  .post_list{
+    margin: 0 4px;
+  }
 </style>
