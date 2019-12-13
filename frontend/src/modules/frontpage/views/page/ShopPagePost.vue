@@ -20,12 +20,12 @@
       </div>
     </div>
     <div class="p_acts">
-      <div class="act">
-        <icon name="like"/>
-        <span class="act_n">Thich</span>
+      <div class="act btn btn-d">
+        <span>🐵</span>
+        <span class="act_n">Cảm nghĩ</span>
       </div>
-      <div class="act">
-        <icon name="comment"/>
+      <div class="act btn btn-d">
+        <span style="font-size: 18px">🐾</span>
         <span class="act_n">Bình luận</span>
       </div>
     </div>

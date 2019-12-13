@@ -20,12 +20,18 @@
 
       </div>
       <div class="ct">
-        <div class="review">
-          <span class="rv_rate">3.5</span>
-          <span class="_star">
-          <span style="width:52px"></span>
-        </span>
-          <span class="n_rate">({{item.count_review}})</span>
+        <!--        <div class="review">-->
+        <!--          <span class="rv_rate">3.5</span>-->
+        <!--          <span class="_star">-->
+        <!--            <span style="width:52px"></span>-->
+        <!--          </span>-->
+        <!--          <span class="n_rate">({{item.count_review}})</span>-->
+        <!--        </div>-->
+        <div class="review_emoji">
+          <div class="r_emo" v-for="r in raters" v-if="r.val">
+            <span class="r_ic">{{r.ic}}</span>
+            <span class="r_val">{{r.val}}</span>
+          </div>
         </div>
         <ul class="attr">
           <li class="attr_l">
@@ -67,6 +73,17 @@
     props: {
       item: Object,
     },
+    data(){
+      return{
+        raters: [
+          {ic: '😡', val: '50'},
+          {ic: '🙂', val: '60'},
+          {ic: '😃', val: '10'},
+          {ic: '😂', val: ''},
+          {ic: '🤩', val: '3'},
+        ]
+      }
+    },
     components: {
       Icon,
     },
@@ -78,6 +95,25 @@
   .shop_i {
     margin: 8px 0;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  }
+
+  .review_emoji {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+  }
+
+  .r_emo {
+    display: flex;
+    margin: 0 4px;
+  }
+
+  .r_ic {
+
+  }
+
+  .r_val {
+
   }
 
   .attr_i dt {
