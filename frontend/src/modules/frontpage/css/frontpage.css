@@ -15,6 +15,7 @@
 #mainarea main {
     width: calc(100% - 164px);
     max-width: 750px;
+    padding: 0;
 }
 
 dl {

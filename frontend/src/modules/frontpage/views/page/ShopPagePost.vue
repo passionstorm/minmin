@@ -29,19 +29,20 @@
         <span class="act_n">Bình luận</span>
       </div>
     </div>
+    <comment/>
   </div>
 </template>
 
 <script>
   import Icon from '../../../../widgets/Icon';
-
+  import Comment from './Comment';
   export default {
     name: 'ShopPagePost',
     props: {
       item: Object,
     },
     components: {
-      Icon,
+      Icon,Comment,
     },
   };
 </script>

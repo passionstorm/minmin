@@ -25,7 +25,7 @@ const t = [
         name: 'shop_page_prod',
         index: 1,
         meta: {title: 'Nhân sự', icon: 'users'},
-        component: () => import('./ShopPageInfo'),
+        component: () => import('./ShopProduct'),
       },
     ],
   },
