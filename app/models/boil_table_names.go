@@ -5,6 +5,12 @@ package models
 
 var TableNames = struct {
 	Articles string
+	MCat     string
+	Shop     string
+	Tags     string
 }{
 	Articles: "articles",
+	MCat:     "m_cat",
+	Shop:     "shop",
+	Tags:     "tags",
 }

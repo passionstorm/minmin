@@ -1,5 +1,6 @@
 <template>
   <div>
+    <div>Thêm sản phẩm</div>
     <ShopProductItem :item="i" v-for="(i, idx) in items" :key="idx"/>
   </div>
 </template>

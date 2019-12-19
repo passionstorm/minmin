@@ -4,6 +4,7 @@ go 1.13
 
 require (
 	github.com/DATA-DOG/go-sqlmock v1.3.3 // indirect
+	github.com/ericlagergren/decimal v0.0.0-20191206042408-88212e6cfca9 // indirect
 	github.com/fasthttp-contrib/websocket v0.0.0-20160511215533-1f3b11f56072 // indirect
 	github.com/friendsofgo/errors v0.9.2
 	github.com/go-sql-driver/mysql v1.4.1
@@ -14,6 +15,7 @@ require (
 	github.com/k0kubun/colorstring v0.0.0-20150214042306-9440f1994b88 // indirect
 	github.com/kat-co/vala v0.0.0-20170210184112-42e1d8b61f12
 	github.com/kataras/iris/v12 v12.0.1
+	github.com/lib/pq v1.3.0 // indirect
 	github.com/mattn/go-colorable v0.1.4 // indirect
 	github.com/nats-io/nats-server/v2 v2.1.2 // indirect
 	github.com/nfnt/resize v0.0.0-20180221191011-83c6a9932646

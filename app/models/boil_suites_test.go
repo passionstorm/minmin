@@ -13,51 +13,90 @@ import "testing"
 // Separating the tests thusly grants avoidance of Postgres deadlocks.
 func TestParent(t *testing.T) {
 	t.Run("Articles", testArticles)
+	t.Run("MCats", testMCats)
+	t.Run("Shops", testShops)
+	t.Run("Tags", testTags)
 }
 
 func TestDelete(t *testing.T) {
 	t.Run("Articles", testArticlesDelete)
+	t.Run("MCats", testMCatsDelete)
+	t.Run("Shops", testShopsDelete)
+	t.Run("Tags", testTagsDelete)
 }
 
 func TestQueryDeleteAll(t *testing.T) {
 	t.Run("Articles", testArticlesQueryDeleteAll)
+	t.Run("MCats", testMCatsQueryDeleteAll)
+	t.Run("Shops", testShopsQueryDeleteAll)
+	t.Run("Tags", testTagsQueryDeleteAll)
 }
 
 func TestSliceDeleteAll(t *testing.T) {
 	t.Run("Articles", testArticlesSliceDeleteAll)
+	t.Run("MCats", testMCatsSliceDeleteAll)
+	t.Run("Shops", testShopsSliceDeleteAll)
+	t.Run("Tags", testTagsSliceDeleteAll)
 }
 
 func TestExists(t *testing.T) {
 	t.Run("Articles", testArticlesExists)
+	t.Run("MCats", testMCatsExists)
+	t.Run("Shops", testShopsExists)
+	t.Run("Tags", testTagsExists)
 }
 
 func TestFind(t *testing.T) {
 	t.Run("Articles", testArticlesFind)
+	t.Run("MCats", testMCatsFind)
+	t.Run("Shops", testShopsFind)
+	t.Run("Tags", testTagsFind)
 }
 
 func TestBind(t *testing.T) {
 	t.Run("Articles", testArticlesBind)
+	t.Run("MCats", testMCatsBind)
+	t.Run("Shops", testShopsBind)
+	t.Run("Tags", testTagsBind)
 }
 
 func TestOne(t *testing.T) {
 	t.Run("Articles", testArticlesOne)
+	t.Run("MCats", testMCatsOne)
+	t.Run("Shops", testShopsOne)
+	t.Run("Tags", testTagsOne)
 }
 
 func TestAll(t *testing.T) {
 	t.Run("Articles", testArticlesAll)
+	t.Run("MCats", testMCatsAll)
+	t.Run("Shops", testShopsAll)
+	t.Run("Tags", testTagsAll)
 }
 
 func TestCount(t *testing.T) {
 	t.Run("Articles", testArticlesCount)
+	t.Run("MCats", testMCatsCount)
+	t.Run("Shops", testShopsCount)
+	t.Run("Tags", testTagsCount)
 }
 
 func TestHooks(t *testing.T) {
 	t.Run("Articles", testArticlesHooks)
+	t.Run("MCats", testMCatsHooks)
+	t.Run("Shops", testShopsHooks)
+	t.Run("Tags", testTagsHooks)
 }
 
 func TestInsert(t *testing.T) {
 	t.Run("Articles", testArticlesInsert)
 	t.Run("Articles", testArticlesInsertWhitelist)
+	t.Run("MCats", testMCatsInsert)
+	t.Run("MCats", testMCatsInsertWhitelist)
+	t.Run("Shops", testShopsInsert)
+	t.Run("Shops", testShopsInsertWhitelist)
+	t.Run("Tags", testTagsInsert)
+	t.Run("Tags", testTagsInsertWhitelist)
 }
 
 // TestToOne tests cannot be run in parallel
@@ -102,20 +141,35 @@ func TestToManyRemove(t *testing.T) {}
 
 func TestReload(t *testing.T) {
 	t.Run("Articles", testArticlesReload)
+	t.Run("MCats", testMCatsReload)
+	t.Run("Shops", testShopsReload)
+	t.Run("Tags", testTagsReload)
 }
 
 func TestReloadAll(t *testing.T) {
 	t.Run("Articles", testArticlesReloadAll)
+	t.Run("MCats", testMCatsReloadAll)
+	t.Run("Shops", testShopsReloadAll)
+	t.Run("Tags", testTagsReloadAll)
 }
 
 func TestSelect(t *testing.T) {
 	t.Run("Articles", testArticlesSelect)
+	t.Run("MCats", testMCatsSelect)
+	t.Run("Shops", testShopsSelect)
+	t.Run("Tags", testTagsSelect)
 }
 
 func TestUpdate(t *testing.T) {
 	t.Run("Articles", testArticlesUpdate)
+	t.Run("MCats", testMCatsUpdate)
+	t.Run("Shops", testShopsUpdate)
+	t.Run("Tags", testTagsUpdate)
 }
 
 func TestSliceUpdateAll(t *testing.T) {
 	t.Run("Articles", testArticlesSliceUpdateAll)
+	t.Run("MCats", testMCatsSliceUpdateAll)
+	t.Run("Shops", testShopsSliceUpdateAll)
+	t.Run("Tags", testTagsSliceUpdateAll)
 }
