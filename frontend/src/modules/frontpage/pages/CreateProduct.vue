@@ -2,43 +2,51 @@
   <div class="card">
     <div class="card-content">
       <form @submit.prevent="onSubmit" method="post" action="/">
-        <v-input placeholder="What is name of thing your sell" v-model.lazy="frm.name"/>
+        <field label="Tên sản phẩm">
+          <v-input placeholder="What is name of thing your sell" v-model.lazy="frm.name"/>
+        </field>
+        <field label="Giá sản phẩm" :grouped="true">
+          <v-input placeholder="Nhập giá thấp nhất" v-model.lazy="frm.priceFrom" />
+          <v-input placeholder="Nhập giá cao nhất" v-model.lazy="frm.priceTo" />
+        </field>
         <input type="submit"/>
       </form>
     </div>
+
     <div class="card-footer">
-      <pre>{{frm}}</pre>
+      <pre>{{log}}</pre>
     </div>
   </div>
 </template>
 
 <script>
-  import VInput from '../../../widgets/VInput'
+  import {VInput, Field} from '../../../widgets'
 
   export default {
     name: 'CreateProduct',
+    components: {
+      VInput,Field
+    },
     data() {
       return {
         frm: {},
+        log: {}
       }
     },
     methods: {
-      onSubmit(e) {
-        this.$http.post('post', this.frm).then(res => {
-          this.frm.res = res
-        }).catch(err => {
-          console.log(err)
-          this.frm.err = err
+      async onSubmit(e) {
+        let res = await this.$store.dispatch('api/post', {
+          path: 'products',
+          data: this.frm,
         })
+        this.log = res
         return true
       },
       onReset() {
         this.frm = {}
       },
     },
-    components: {
-      VInput,
-    },
+
   }
 </script>
 

@@ -40,6 +40,13 @@ module.exports = {
       'API_URL': JSON.stringify(env.API_URL),
       'ADMIN_URL': JSON.stringify(env.ADMIN_URL),
       'STATIC_URL': JSON.stringify(env.STATIC_URL),
+      // 'FIREBASE_API_KEY': JSON.stringify(''),
+      // 'FIREBASE_AUTH_DOMAIN': JSON.stringify('mintoot-minh.firebaseapp.com'),
+      'process.env.FIREBASE_DB_URL': JSON.stringify('mintoot-minh.firebaseio.com'),
+      // 'FIREBASE_PROJECT_ID': JSON.stringify(''),
+      'process.env.FIREBASE_STORAGE_BUCKET': JSON.stringify('mintoot-minh.appspot.com'),
+      // 'FIREBASE_MESSAGE_ID': JSON.stringify(''),
+
     }),
     new webpack.HashedModuleIdsPlugin(), // so that file hashes don't change unexpectedly
     new webpack.HotModuleReplacementPlugin(),

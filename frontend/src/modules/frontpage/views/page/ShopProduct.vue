@@ -15,7 +15,7 @@
     name: 'ShopProduct',
     data() {
       return {
-        isCreate: false,
+        isCreate: true,
         items: [
           {},
         ],
