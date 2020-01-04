@@ -1,6 +1,6 @@
 <template>
-  <div class="field" :class="[rootClasses, fieldType()]">
-    <div
+  <dl class="field" :class="[rootClasses, fieldType()]">
+    <dt
         v-if="horizontal"
         class="field-label"
         :class="[customClass, fieldLabelSize]">
@@ -13,17 +13,19 @@
         <template v-else>{{ label }}</template>
       </label>
       <span class="is-required" v-if="required">*</span>
-    </div>
+    </dt>
     <template v-else>
-      <label
-          v-if="hasLabel"
-          :for="labelFor"
-          :class="customClass"
-          class="label">
-        <slot v-if="$slots.label" name="label"/>
-        <template v-else>{{ label }}</template>
-      </label>
-      <span class="is-required" v-if="required">*</span>
+      <dt>
+        <label
+            v-if="hasLabel"
+            :for="labelFor"
+            :class="customClass"
+            class="label">
+          <slot v-if="$slots.label" name="label"/>
+          <template v-else>{{ label }}</template>
+        </label>
+        <span class="is-required" v-if="required">*</span>
+      </dt>
     </template>
     <v-field-body
         v-if="horizontal"
@@ -32,7 +34,9 @@
       <slot/>
     </v-field-body>
     <template v-else>
-      <slot/>
+      <dd>
+        <slot/>
+      </dd>
     </template>
     <p
         v-if="newMessage && !horizontal"
@@ -40,12 +44,13 @@
         class="help"
         :class="newType"
     />
-  </div>
+  </dl>
 </template>
 
 <script>
   import config from '../../utils/config_element'
   import FieldBody from './FieldBody'
+
   export default {
     name: 'Field',
     components: {
@@ -64,15 +69,15 @@
       required: String,
       addons: {
         type: Boolean,
-        default: true
+        default: true,
       },
       customClass: String,
       labelPosition: {
         type: String,
         default: () => {
           return config.defaultFieldLabelPosition
-        }
-      }
+        },
+      },
     },
     data() {
       return {
@@ -90,9 +95,9 @@
             'is-grouped-multiline': this.groupMultiline,
             'is-horizontal': this.horizontal,
             'is-floating-in-label': this.hasLabel && !this.horizontal &&
-                this.labelPosition === 'inside',
+              this.labelPosition === 'inside',
             'is-floating-label': this.hasLabel && !this.horizontal &&
-                this.labelPosition === 'on-border'
+              this.labelPosition === 'on-border',
           },
           this.numberInputClasses]
       },
@@ -108,8 +113,8 @@
         const position = this.position.split('-')
         if (position.length < 1) return
         const prefix = this.grouped
-            ? 'is-grouped-'
-            : 'has-addons-'
+          ? 'is-grouped-'
+          : 'has-addons-'
         if (this.position) return prefix + position[1]
       },
       /**
@@ -151,7 +156,7 @@
       numberInputClasses() {
         if (this.$slots.default) {
           const numberinput = this.$slots.default.filter(
-              (node) => node.tag && node.tag.toLowerCase().indexOf('numberinput') >= 0)[0]
+            (node) => node.tag && node.tag.toLowerCase().indexOf('numberinput') >= 0)[0]
           if (numberinput) {
             const classes = ['has-numberinput']
             const controlsPosition = numberinput.componentOptions.propsData.controlsPosition
@@ -166,7 +171,7 @@
           }
         }
         return null
-      }
+      },
     },
     watch: {
       /**
@@ -180,7 +185,7 @@
        */
       message(value) {
         this.newMessage = value
-      }
+      },
     },
     methods: {
       /**
@@ -196,13 +201,13 @@
           renderedNode = this.$slots.default.reduce((i, node) => node.tag ? i + 1 : i, 0)
         }
         if (
-            renderedNode > 1 &&
-            this.addons &&
-            !this.horizontal
+          renderedNode > 1 &&
+          this.addons &&
+          !this.horizontal
         ) {
           return 'has-addons'
         }
-      }
+      },
     },
     mounted() {
       if (this.horizontal) {
@@ -212,12 +217,27 @@
           this.fieldLabelSize = 'is-normal'
         }
       }
-    }
+    },
   }
 </script>
 <style scoped>
-  .is-required{
-    color: #ff3860; font-weight: bold
+  .is-required {
+    color: #ff3860;
+    font-weight: bold
+  }
+
+  dl {
+    display: flex;
+    align-items: center;
+  }
+
+  dt {
+    width: 200px;
+  }
+
+  dd {
+    margin-bottom: 9px;
+    line-height: 1.3;
   }
 
 

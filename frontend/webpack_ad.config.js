@@ -46,9 +46,6 @@ module.exports = {
     new webpack.HashedModuleIdsPlugin(), // so that file hashes don't change unexpectedly
     new webpack.HotModuleReplacementPlugin(),
     new VueLoaderPlugin(),
-    // new ManifestPlugin({
-    //   outputPath: resolve('/'),
-    // }),
     new HtmlWebpackPlugin({
       // filename: resolve( 'index.html'),
       template: resolve('index.html'),

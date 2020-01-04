@@ -34,7 +34,7 @@
           v-if="maxlength && hasCounter && type !== 'number'"
           class="help counter"
           :class="{ 'is-invisible': !isFocused }">
-        {{ valueLength }} / {{ maxlength }}
+        {{ valueLength }}/{{ maxlength }}
       </small>
     </div>
 </template>
@@ -232,4 +232,10 @@
     resize: none;
     overflow-y: hidden;
   }
+  .help.counter{
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+
 </style>

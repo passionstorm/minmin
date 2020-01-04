@@ -48,12 +48,7 @@ func main() {
 
 	initApiDomain(app)
 	initAdminDomain(app)
-	var port string
-	if isDev {
-		port = ":9000"
-	} else {
-		port = ":443"
-	}
+	port := ":9000"
 	err = app.Run(iris.Addr(port))
 	die(err)
 }
@@ -65,7 +60,6 @@ func registerLogic(app *mvc.Application) {
 
 func apiRoute(app *mvc.Application) {
 	registerLogic(app)
-
 	app.Party("/post").Handle(new(R.PostController))
 	app.Handle(new(R.UploadController))
 }

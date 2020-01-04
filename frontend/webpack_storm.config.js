@@ -1,19 +1,18 @@
-const path = require('path');
-const webpack = require('webpack');
-const TerserPlugin = require('terser-webpack-plugin');
-const VueLoaderPlugin = require('vue-loader').VueLoaderPlugin;
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-const CompressionPlugin = require('compression-webpack-plugin');
-const VueSSRClientPlugin = require('vue-server-renderer/client-plugin');
-const dotenv = require('dotenv');
+const path = require('path')
+const webpack = require('webpack')
+const TerserPlugin = require('terser-webpack-plugin')
+const VueLoaderPlugin = require('vue-loader').VueLoaderPlugin
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
+const VueSSRClientPlugin = require('vue-server-renderer/client-plugin')
+const dotenv = require('dotenv')
 
 const resolve = dir => {
-  return path.join(__dirname, dir);
-};
-const env = dotenv.config({path: resolve('../.env')}).parsed;
-const mode = process.env.NODE_ENV;
-const isDev = mode === 'development';
+  return path.join(__dirname, dir)
+}
+const env = dotenv.config({path: resolve('../.env')}).parsed
+const mode = process.env.NODE_ENV
+const isDev = mode === 'development'
 
 module.exports = {
   mode: mode,
@@ -38,9 +37,11 @@ module.exports = {
       'STATIC_URL': JSON.stringify(env.STATIC_URL),
       // 'FIREBASE_API_KEY': JSON.stringify(''),
       // 'FIREBASE_AUTH_DOMAIN': JSON.stringify('mintoot-minh.firebaseapp.com'),
-      'process.env.FIREBASE_DB_URL': JSON.stringify('mintoot-minh.firebaseio.com'),
+      'process.env.FIREBASE_DB_URL': JSON.stringify(
+        'mintoot-minh.firebaseio.com'),
       // 'FIREBASE_PROJECT_ID': JSON.stringify(''),
-      'process.env.FIREBASE_STORAGE_BUCKET': JSON.stringify('mintoot-minh.appspot.com'),
+      'process.env.FIREBASE_STORAGE_BUCKET': JSON.stringify(
+        'mintoot-minh.appspot.com'),
       // 'FIREBASE_MESSAGE_ID': JSON.stringify(''),
 
     }),
@@ -55,7 +56,7 @@ module.exports = {
       template: resolve('index.html'),
       'hash': false,
       'compile': false,
-      'favicon': false,
+      'favicon': './src/modules/storm/img/favicon.png',
       'showErrors': true,
       'chunks': 'all',
       'minify': true,
@@ -74,15 +75,15 @@ module.exports = {
     hot: true,
     overlay: {warnings: true, errors: true},
     // compress: true,
-    port: 8081,
+    port: 8082,
   },
   entry: {
-    'front/main': './src/modules/frontpage/main.js',
+    'main': './src/modules/storm/main.js',
     // vendors: ['vue', 'vuex', 'core-js', 'vue-router', 'axios'],
   },
   output: {
     publicPath: '/',
-    path: resolve('../public/spa/admin'),
+    path: resolve('../public/storm'),
     filename: '[name].[hash].js',
     chunkFilename: '[name].[contenthash].js',
   },
@@ -99,19 +100,6 @@ module.exports = {
   watchOptions: {
     aggregateTimeout: 300,
     poll: 1000,
-  },
-  optimization: {
-    moduleIds: 'hashed',
-    runtimeChunk: 'single',
-    splitChunks: {
-      cacheGroups: {
-        vendor: {
-          test: /[\\/]node_modules[\\/]/,
-          name: 'vendors',
-          chunks: 'all',
-        },
-      },
-    },
   },
   module: {
     rules: [
@@ -154,36 +142,38 @@ module.exports = {
           },
         ],
       },
+      {
+        test: /\.(png|jpg|gif)$/,
+        use: ['file-loader'],
+      },
     ],
   },
-};
+}
 
 if (process.env.NODE_ENV === 'production') {
-  const BrotliPlugin = require('brotli-webpack-plugin');
+  const BrotliPlugin = require('brotli-webpack-plugin')
   module.exports.plugins.push(
-      new CompressionPlugin({
-        filename: '[path].gz[query]',
-        algorithm: 'gzip',
-        test: /\.(js|css|html|svg)$/,
-        threshold: 10240,
-        minRatio: 0.8,
-        deleteOriginalAssets: false,
-      }),
-      new VueSSRClientPlugin({}),
-      // new BrotliPlugin({
-      //   filename: '[path].br[query]',
-      //   algorithm: 'brotli',
-      //   quality: 9,
-      //   test: /\.(js|css|html|svg)$/,
-      //   threshold: 10240,
-      //   minRatio: 0.8,
-      //   deleteOriginalAssets: false,
-      // }),
-  );
+    // new CompressionPlugin({
+    //   filename: '[path].gz[query]',
+    //   algorithm: 'gzip',
+    //   test: /\.(js|css|html|svg)$/,
+    //   threshold: 10240,
+    //   minRatio: 0.8,
+    //   deleteOriginalAssets: false,
+    // }),
+    new VueSSRClientPlugin({}),
+    new BrotliPlugin({
+      filename: '[path].br[query]',
+      algorithm: 'brotli',
+      quality: 9,
+      test: /\.(js|css|html|svg)$/,
+      threshold: 10240,
+      minRatio: 0.8,
+      deleteOriginalAssets: false,
+    }),
+  )
   module.exports.optimization = {
     minimize: true,
-    moduleIds: 'hashed',
-    runtimeChunk: 'single',
     minimizer: [
       new TerserPlugin({
         terserOptions: {
@@ -195,29 +185,24 @@ if (process.env.NODE_ENV === 'production') {
       }),
       new OptimizeCSSAssetsPlugin({}),
     ],
-    // splitChunks: {
-    //   chunks: 'all',
-    //   maxInitialRequests: Infinity,
-    //   minSize: 0,
-    //   cacheGroups: {
-    //     default: false,
-    //     vendors: false,
-    //     vendor: {
-    //       name: 'vendor',
-    //       chunks: 'initial',
-    //       test: /[\\/]node_modules[\\/]/,
-    //       priority: -10,
-    //       minChunks: 2,
-    //       reuseExistingChunk: true,
-    //     },
-    //     common: {
-    //       name: 'common',
-    //       minChunks: 2,
-    //       chunks: 'initial',
-    //       priority: 10,
-    //       reuseExistingChunk: true,
-    //     },
-    //   },
-    // },
-  };
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          test: /node_modules/,
+          chunks: 'all',
+          name: 'vendor',
+          priority: 20,
+          reuseExistingChunk: true,
+        },
+        common: {
+          name: 'common',
+          minChunks: 2,
+          chunks: 'async',
+          priority: 10,
+          reuseExistingChunk: true,
+          enforce: true,
+        },
+      },
+    },
+  }
 }
