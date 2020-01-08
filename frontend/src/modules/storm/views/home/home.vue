@@ -5,22 +5,33 @@
         <img class="" src="../../img/logo.png" alt="">
         <h1>MinTooT</h1>
       </div>
-
       <h4>Chia sẽ những cái mình biết để biết nhiều hơn bằng cách viết cái gì đó theo cách của bạn</h4>
     </header>
     <section>
       <div class="d-flex justify-content-center">
-        <a href="javascript:;" class="btn btn-primary btn-lg">Viết 1 điều gì đó</a>
+        <a @click.native="onCreate" href="javascript:;" class="btn btn-primary btn-lg">Viết 1 điều gì đó</a>
       </div>
+    </section>
+    <section>
+      <editor-form/>
     </section>
   </div>
 </template>
 
 <script>
+  import EditorForm from './EditorForm'
   export default {
     name: 'home',
+    components:{
+      EditorForm
+    },
     data() {
       return {}
+    },
+    methods: {
+      onCreate() {
+
+      },
     },
   }
 </script>

@@ -1,6 +1,4 @@
 <style scoped>
-
-
   .editor .menubar {
     display: flex;
     height: 150px;
