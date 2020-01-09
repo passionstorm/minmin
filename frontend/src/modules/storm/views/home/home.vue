@@ -19,7 +19,7 @@
 </template>
 
 <script>
-  import EditorForm from './EditorForm'
+  import EditorForm from './ReviewForm'
   export default {
     name: 'home',
     components:{
