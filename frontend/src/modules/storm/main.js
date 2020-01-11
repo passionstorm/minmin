@@ -5,7 +5,13 @@ import toast from '../../widgets/toast'
 import dialog from '../../widgets/dialog'
 import axios from 'axios'
 import store from './store'
-
+import * as VueGoogleMaps from "vue2-google-maps";
+Vue.use(VueGoogleMaps, {
+  load: {
+    key: "AIzaSyAknIaoGLtaIUVfJ11cLhoedvf2pbhW0Tg ",
+    libraries: "places"
+  }
+});
 
 require('../../config')
 require('./css/common.css')

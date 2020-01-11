@@ -3,6 +3,7 @@
         width: 100% !important;
     }
 }
+
 .form-table th, .form-wrap label {
     color: #23282d;
     font-weight: 400;
@@ -14,12 +15,12 @@
     vertical-align: top;
     text-align: left;
     padding: 20px 10px 20px 0;
-    min-width: 100px;
+    width: 150px;
     line-height: 1.3;
     font-weight: 600;
 }
 
-.form-table th label{
+.form-table th label {
     cursor: pointer;
     margin-bottom: 0;
 }
@@ -27,11 +28,12 @@
 .form-table td {
     margin-bottom: 9px;
     padding: 15px 10px;
+    width: 100%;
     line-height: 1.3;
     vertical-align: middle;
 }
 
-.form-table td input{
+.form-table td input {
 }
 
 .form-table, .form-table td, .form-table td p, .form-table th {
@@ -39,18 +41,43 @@
 }
 
 .form-table .d {
-    width: 25em;
+    width: 150px;
 }
 
 body {
     font-family: 'Roboto', sans-serif;
 }
 
+.form-table tr.break td, .form-table tr.break th {
+    display: block;
+    width: auto;
+    vertical-align: middle;
+}
+
+.form-table tr.break td {
+    margin-bottom: 0;
+    padding-bottom: 6px;
+    padding-top: 4px;
+    padding-left: 0;
+}
+
+.form-table tr.break th {
+    padding-top: 10px;
+    padding-bottom: 0;
+    border-bottom: 0;
+}
 
 @media only screen and (max-width: 782px) {
+    .container{
+        padding-left: 4px;
+        padding-right: 4px;
+    }
+    .form-table{
+        width: 100%;
+    }
     .form-table td, .form-table th, .label-responsive {
         display: block;
-        width: auto;
+        width: auto !important;
         vertical-align: middle;
     }
 
@@ -60,10 +87,15 @@ body {
         padding-top: 4px;
         padding-left: 0;
     }
-    .form-table th{
+
+    .form-table th {
         padding-top: 10px;
         padding-bottom: 0;
         border-bottom: 0;
     }
+}
+
+#mainarea{
+    overflow-y: auto;
 }
 

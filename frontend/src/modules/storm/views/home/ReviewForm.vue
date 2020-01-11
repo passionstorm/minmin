@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2>Review</h2>
-
+    <pre>{{frm}}</pre>
     <table class="form-table">
       <tbody>
       <tr>
@@ -21,13 +21,19 @@
         </td>
       </tr>
       <tr>
-        <th><label for="">Nội dung review</label></th>
+        <th><label>Nội dung review</label></th>
         <td><textarea class="form-control" type="text" placeholder="Nhập nội dung review"/></td>
       </tr>
       <tr>
         <th><label>Hình ảnh</label></th>
         <td>
-          <upload-image/>
+          <upload-image v-model="frm.images"/>
+        </td>
+      </tr>
+      <tr>
+        <th>Vị trí</th>
+        <td>
+          <QEditor />
         </td>
       </tr>
       </tbody>
@@ -38,9 +44,11 @@
 <script>
   import Editor from '../../../../widgets/Editor'
   import UploadImage from '../../../../widgets/UploadImage'
+  import GMap from '../../../../widgets/GMap'
+  import QEditor from '../../../../widgets/QEditor'
   export default {
     name: 'EditorForm',
-    components: {Editor, UploadImage},
+    components: {Editor, UploadImage, GMap, QEditor},
     data() {
       return {
         frm: {},
@@ -57,6 +65,6 @@
 
   .form-table th {
     font-size: 16px;
-    min-width: 100px;
+    min-width: 150px;
   }
 </style>
