@@ -80,7 +80,7 @@
     top: 2px;
     right: 2px;
     color: #fff;
-    background: #7a7a7a;
+    background: #23282d;
     border: 2px solid #fff;
     border-radius: 50%;
     text-align: center;
@@ -88,6 +88,7 @@
     height: 25px;
     opacity: 0.5;
     font-size: 1.15rem;
+    line-height: 1.35rem;
   }
   .btn_del:hover{
     opacity: 1;
@@ -209,7 +210,7 @@
     box-sizing: border-box;
     width: 148px;
     height: 148px;
-    margin: 0 4px 4px 0;
+    margin: 0 1px 1px 0;
     position: relative;
     user-select: none;
     -webkit-user-select: none;

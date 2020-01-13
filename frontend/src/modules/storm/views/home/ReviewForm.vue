@@ -1,7 +1,6 @@
 <template>
   <div>
     <h2>Review</h2>
-    <pre>{{frm}}</pre>
     <table class="form-table">
       <tbody>
       <tr>
@@ -32,9 +31,6 @@
       </tr>
       <tr>
         <th>Vị trí</th>
-        <td>
-          <QEditor />
-        </td>
       </tr>
       </tbody>
     </table>
@@ -44,11 +40,9 @@
 <script>
   import Editor from '../../../../widgets/Editor'
   import UploadImage from '../../../../widgets/UploadImage'
-  import GMap from '../../../../widgets/GMap'
-  import QEditor from '../../../../widgets/QEditor'
   export default {
     name: 'EditorForm',
-    components: {Editor, UploadImage, GMap, QEditor},
+    components: {Editor, UploadImage},
     data() {
       return {
         frm: {},
