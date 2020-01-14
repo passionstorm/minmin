@@ -1,8 +1,20 @@
 <template>
   <div>
     <h2>Review</h2>
+    <pre>
+      {{frm}}
+    </pre>
     <table class="form-table">
       <tbody>
+      <tr>
+        <th>
+          Danh mục đánh giá
+        </th>
+        <td>
+          <ASelect v-model="frm.cat" :options="data.cats" option-text="name" option-value="id"
+          />
+        </td>
+      </tr>
       <tr>
         <th>
           <label>Tên</label>
@@ -40,12 +52,31 @@
 <script>
   import Editor from '../../../../widgets/Editor'
   import UploadImage from '../../../../widgets/UploadImage'
+  import ASelect from '../../../../widgets/ASelect'
   export default {
     name: 'EditorForm',
-    components: {Editor, UploadImage},
+    components: {Editor, UploadImage,ASelect},
     data() {
       return {
-        frm: {},
+        data: {
+          cats: [
+            {id: 1, name: 'Món ăn'},
+            {id: 2, name: 'Quán ăn'},
+            {id: 3, name: 'Địa điểm du lịch'},
+            {id: 4, name: 'Địa điểm du lịch'},
+            {id: 5, name: 'Địa điểm du lịch'},
+            {id: 6, name: 'Địa điểm du lịch'},
+            {id: 7, name: 'Địa điểm du lịch'},
+            {id: 8, name: 'Địa điểm du lịch'},
+            {id: 9, name: 'Địa điểm du lịch'},
+            {id: 10, name: 'Địa điểm du lịch'},
+            {id: 11, name: 'Địa điểm du lịch'},
+            {id: 12, name: 'Địa điểm du lịch'},
+            {id: 13, name: 'Địa điểm du lịch'},
+          ]
+        },
+        frm: {
+        },
       }
     },
 

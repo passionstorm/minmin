@@ -148,38 +148,6 @@
     width: 100%;
   }
 
-  .image-input {
-    overflow: hidden;
-    opacity: 0;
-    top: 0;
-    left: 0;
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    height: 100%;
-  }
-
-  .input_image {
-    display: flex;
-    position: relative;
-    justify-content: center;
-    align-items: center;
-    background-color: #fbfdff;
-    border: 1px dashed #c0ccda;
-    border-radius: 6px;
-    box-sizing: border-box;
-    width: 148px;
-    height: 148px;
-    cursor: pointer;
-    vertical-align: top;
-  }
-
-  .btn_upload {
-    width: 100%;
-    height: 100%;
-    cursor: pointer;
-    display: block;
-  }
   .btn_img{
     position: relative;
     cursor: pointer;
@@ -197,12 +165,6 @@
   .btn_img span{
     cursor: pointer;
     vertical-align: middle;
-  }
-
-  .image-icon-drag {
-    fill: #c9c8c8;
-    height: 50px;
-    width: 50px;
   }
 
   .upload_item {
