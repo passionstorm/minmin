@@ -9,6 +9,7 @@ import (
 	"github.com/kataras/iris/v12/middleware/recover"
 	"github.com/kataras/iris/v12/mvc"
 	"github.com/kataras/iris/v12/view"
+	"minmin/app/api"
 	R "minmin/app/controllers"
 	"minmin/app/logic"
 	"os"
@@ -28,13 +29,12 @@ func main() {
 	app.OnErrorCode(iris.StatusInternalServerError, func(ctx iris.Context) {
 		ctx.HTML("Message: <b>" + ctx.Values().GetString("message") + "</b>")
 	})
-	app.Logger().SetLevel("debug")
 	err := godotenv.Load()
 	if err != nil {
 		panic("Not found file .env")
 	}
 	isDev := os.Getenv("DEV") == "1"
-	logic.Load()
+	//logic.Load()
 	tmpl := iris.Jet("./app/views", ".jet")
 	tmpl.Reload(isDev) // remove in production.
 	tmpl.AddFunc("base64", func(a view.JetArguments) reflect.Value {
@@ -45,9 +45,8 @@ func main() {
 	})
 
 	app.RegisterView(tmpl)
-
-	initApiDomain(app)
 	initAdminDomain(app)
+	api.NewApiDomain(app)
 	port := ":9000"
 	err = app.Run(iris.Addr(port))
 	die(err)

@@ -52,7 +52,7 @@
         this.$emit('change', this.listImages)
       },
       uploadImage(event) {
-        const URL = 'https://fineuploader.com/server/success.html'
+        const URL = 'http://api.localhost:9000/upload'
         let data = new FormData()
         data.append('name', 'my-picture')
         data.append('file', event.target.files[0])
@@ -61,7 +61,7 @@
             'Content-Type': 'image/png',
           },
         }
-        this.$http.get(
+        this.$http.post(
           URL,
           data,
           config,

@@ -19,7 +19,7 @@ require('../../helper_filter')
 Vue.use(toast)
 Vue.use(dialog)
 const base = axios.create({
-  baseURL: 'https://mintoot-minh.firebaseio.com/',
+  baseURL: 'http://api.localhost:9000/',
 })
 Vue.prototype.$http = base
 
