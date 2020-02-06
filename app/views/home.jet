@@ -1,0 +1,7 @@
+{{extends "layouts/default_layout.jet"}}
+
+{{block documentBody() }}
+  <h1>List of TODOs</h1>
+{{end}}
+
+

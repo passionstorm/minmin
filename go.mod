@@ -3,7 +3,6 @@ module minmin
 go 1.13
 
 require (
-	github.com/CloudyKit/fastprinter v0.0.0-20200109182630-33d98a066a53 // indirect
 	github.com/DATA-DOG/go-sqlmock v1.3.3 // indirect
 	github.com/ericlagergren/decimal v0.0.0-20191206042408-88212e6cfca9 // indirect
 	github.com/fasthttp-contrib/websocket v0.0.0-20160511215533-1f3b11f56072 // indirect
@@ -39,4 +38,4 @@ require (
 	gopkg.in/yaml.v2 v2.2.7 // indirect
 )
 
-replace github.com/kataras/iris/v12 v12.0.1 => ../iris
+replace github.com/kataras/iris/v12 v12.0.1 => ../github.com/minhvh93/iris
