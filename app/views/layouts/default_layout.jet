@@ -5,6 +5,8 @@
     <title>{{ isset(title) ? title : "" }}</title>
   </head>
   <body>
-    {{block documentBody() }}{{end}}
+    {{block body() }}{{end}}
+
+    {{block script() }}{{end}}
   </body>
 </html>

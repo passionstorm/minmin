@@ -1,18 +1,15 @@
 package bootstrap
 
 import (
-	"bytes"
-	"encoding/base64"
-	"fmt"
-	recover2 "github.com/kataras/iris/v12/middleware/recover"
-	"reflect"
-	"time"
 	"github.com/gorilla/securecookie"
+	"github.com/joho/godotenv"
 	"github.com/kataras/iris/v12"
 	"github.com/kataras/iris/v12/middleware/logger"
+	recover2 "github.com/kataras/iris/v12/middleware/recover"
 	"github.com/kataras/iris/v12/sessions"
-	"github.com/kataras/iris/v12/view"
 	"github.com/kataras/iris/v12/websocket"
+	"log"
+	"time"
 )
 
 type Configurator func(*Rooter)
@@ -41,21 +38,7 @@ func New(appName, appOwner string, cfgs ...Configurator) *Rooter {
 	return b
 }
 
-func (b *Rooter) SetupViews(viewsDir string) {
-	tmpl := iris.Jet("./app/views", ".jet") // <--
-	tmpl.Reload(true)                       // remove in production.
-	tmpl.AddFunc("base64", func(a view.JetArguments) reflect.Value {
-		a.RequireNumOfArguments("base64", 1, 1)
-		buffer := bytes.NewBuffer(nil)
-		fmt.Fprint(buffer, a.Get(0))
-		return reflect.ValueOf(base64.URLEncoding.EncodeToString(buffer.Bytes()))
-	})
-	tmpl.AddFunc("asset", func(url string) {
-		fmt.Println(url)
-	})
-	b.RegisterView(tmpl) // <--
-	//b.RegisterView(iris.HTML(viewsDir, ".html").Layout("shared/layout.html"))
-}
+
 
 // SetupSessions initializes the sessions, optionally.
 func (b *Rooter) SetupSessions(expires time.Duration, cookieHashKey, cookieBlockKey []byte) {
@@ -110,6 +93,10 @@ func (b *Rooter) Configure(cs ...Configurator) {
 //
 // Returns itself.
 func (b *Rooter) Bootstrap() *Rooter {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
 	b.SetupViews("./app/views")
 	b.SetupSessions(24*time.Hour,
 		[]byte("the-big-and-secret-fash-key-here"),

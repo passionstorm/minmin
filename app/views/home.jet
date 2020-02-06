@@ -1,7 +1,11 @@
 {{extends "layouts/default_layout.jet"}}
 
-{{block documentBody() }}
+{{block body() }}
   <h1>List of TODOs</h1>
+
+
 {{end}}
 
-
+{{block script() }}
+{{ asset("javascript/abc") }}
+{{end}}
