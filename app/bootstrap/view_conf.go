@@ -4,11 +4,11 @@ import (
 	"bytes"
 	"encoding/base64"
 	"fmt"
-	"github.com/kataras/iris/v12"
-	"github.com/kataras/iris/v12/view"
 	"os"
 	"reflect"
-	"strings"
+
+	"github.com/kataras/iris/v12"
+	"github.com/kataras/iris/v12/view"
 )
 
 func fnAsset(a view.JetArguments) reflect.Value {
@@ -40,12 +40,12 @@ func (b *Rooter) SetupViews(viewsDir string) {
 	tmpl := iris.Jet(viewsDir, ".jet") // <--
 	tmpl.Reload(true)
 
-	clz := ViewBuiler{}
-	fns := reflect.TypeOf(ViewBuiler{})
-	for i := 0; i < fns.NumMethod(); i++ {
-		method := fns.Method(i)
-		tmpl.AddFunc(strings.ToLower(method.Name), reflect.ValueOf(&clz).Method(i).)
-	}
+	// clz := ViewBuiler{}
+	// fns := reflect.TypeOf(ViewBuiler{})
+	// for i := 0; i < fns.NumMethod(); i++ {
+	// 	method := fns.Method(i)
+	// 	tmpl.AddFunc(strings.ToLower(method.Name), reflect.ValueOf(&clz).Method(i).)
+	// }
 
 	b.RegisterView(tmpl)
 }

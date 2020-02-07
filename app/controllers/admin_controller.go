@@ -9,7 +9,7 @@ type AdminController struct {
 	baseController
 }
 
-func (c *AdminController) GetIndex() mvc.Result {
+func (c *AdminController) Get() mvc.Result {
 	return mvc.View{
 		Name: "login.jet",
 		Data: map[string]interface{}{

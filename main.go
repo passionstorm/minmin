@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/kataras/iris/v12"
 	"minmin/app/bootstrap"
 	"minmin/app/routes"
 )
@@ -18,6 +19,11 @@ func newApp() *bootstrap.Rooter {
 
 func main() {
 	app := newApp()
-	app.Listen(":9000")
+	app.Listen(
+		":9000",
+		// Ignores err server closed log when CTRL/CMD+C pressed.
+		//iris.WithoutServerError(iris.ErrServerClosed),
+		// Enables faster json serialization and more.
+		iris.WithOptimizations,
+	)
 }
-
