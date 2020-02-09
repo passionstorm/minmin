@@ -20,7 +20,7 @@ func newApp() *bootstrap.Rooter {
 func main() {
 	app := newApp()
 	app.Listen(
-		":9000",
+		"mintoot.local:80",
 		// Ignores err server closed log when CTRL/CMD+C pressed.
 		//iris.WithoutServerError(iris.ErrServerClosed),
 		// Enables faster json serialization and more.

@@ -9,7 +9,7 @@
 <script>
   export default {
     components: {
-      card: () => import('_w/Card'),
+      card: () => import('@widget/Card'),
     },
     methods: {},
     data() {

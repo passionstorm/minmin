@@ -36,7 +36,7 @@
     methods: {},
   };
 </script>
-<style>
+<style lang="scss">
   .container {
     display: flex;
   }

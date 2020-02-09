@@ -38,8 +38,6 @@ func New(appName, appOwner string, cfgs ...Configurator) *Rooter {
 	return b
 }
 
-
-
 // SetupSessions initializes the sessions, optionally.
 func (b *Rooter) SetupSessions(expires time.Duration, cookieHashKey, cookieBlockKey []byte) {
 	b.Sessions = sessions.New(sessions.Config{
@@ -70,10 +68,14 @@ func (b *Rooter) SetupErrorHandlers() {
 			c.JSON(err)
 			return
 		}
+		if c.GetStatusCode() == 400 {
+			c.View("shared/error_400.jet")
+			return
+		}
 
+		c.ViewData("Title", "")
 		c.ViewData("Err", err)
-		c.ViewData("Title", "Error")
-		c.View("shared/error.jet")
+		c.View("shared/error_500.jet")
 	})
 }
 
@@ -98,6 +100,11 @@ func (b *Rooter) Bootstrap() *Rooter {
 		log.Fatal("Error loading .env file")
 	}
 	b.SetupViews("./app/views")
+	b.HandleDir("/", "spa/dist", iris.DirOptions{
+		IndexName: "/index.html",
+		Gzip:      true,
+		ShowList:  true,
+	})
 	b.SetupSessions(24*time.Hour,
 		[]byte("the-big-and-secret-fash-key-here"),
 		[]byte("lot-secret-of-characters-big-too"),

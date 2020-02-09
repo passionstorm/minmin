@@ -8,7 +8,7 @@
       </div>
       <div class="register cua ">
         <div class="display_text">
-          <span>{{ Title }}</span>
+          <span>{{ title }}</span>
         </div>
         <form class="form_login">
           <input type="text" name="username" value="" class="l_username" autofocus required spellcheck="false" autocomplete='false'
@@ -18,4 +18,9 @@
         </form>
       </div>
     </div>
+    <div id="app">
+    </div>
+{{end}}
+{{block script()}}
+<script src="/js/index.js"></script>
 {{end}}
