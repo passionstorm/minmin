@@ -1,7 +1,9 @@
 package m
 
 import (
+	"errors"
 	"github.com/kataras/iris/v12"
+	"github.com/ztrue/tracerr"
 	"log"
 )
 
@@ -9,7 +11,6 @@ func CoverErr(ctx iris.Context) {
 	if r := recover(); r != nil {
 		ctx.StatusCode(400)
 		ctx.JSON(iris.Map{
-			"success": 0,
 			"error": iris.Map{
 				"message": r,
 			},
@@ -34,9 +35,13 @@ func Err(err error) {
 	}
 }
 
-func HandlErr(err error) {
+func HandlErr(err error, newMsg ...string) {
 	if err != nil {
-//		tracerr.Print(err)
+		tracerr.PrintSourceColor(err, 2)
+		if len(newMsg) > 0 {
+			panic(errors.New(newMsg[0]).Error())
+		}
+		//
 		panic(err.Error())
 	}
 }

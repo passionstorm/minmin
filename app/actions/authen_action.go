@@ -7,6 +7,7 @@ import (
 	"github.com/kataras/iris/v12"
 	"github.com/ztrue/tracerr"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/mongo"
 	"golang.org/x/crypto/bcrypt"
 	"minmin/app/pkg/mgo/db"
 	"minmin/app/utils/m"
@@ -31,12 +32,10 @@ func (AuthenAction) PostLogin(ctx iris.Context) interface{} {
 	var result m.Map
 
 	err = col.FindOne(context.TODO(), bson.D{{"username", form["username"]}}).Decode(&result)
-	if err != nil{
-		m.HandlErr(tracerr.New("Invalid username"))
-	}
+	m.HandlErr(tracerr.Wrap(err), "Invalid username")
 
 	err = bcrypt.CompareHashAndPassword([]byte(result["password"].(string)), []byte(form["password"].(string)))
-	m.HandlErr(tracerr.New("Invalid password"))
+	m.HandlErr(tracerr.Wrap(err), "Invalid password")
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"username":  result["username"],
@@ -44,7 +43,8 @@ func (AuthenAction) PostLogin(ctx iris.Context) interface{} {
 		"lastname":  result["lastname"],
 	})
 	tokenStr, err := token.SignedString([]byte("secret"))
-	m.HandlErr(tracerr.New("Error while generating token,Try again"))
+	m.HandlErr(tracerr.Wrap(err), "Error while generating token,Try again")
+
 	ctx.StatusCode(200)
 	return m.Map{"token": tokenStr}
 
@@ -61,16 +61,17 @@ func (c *AuthenAction) PostRegister(ctx iris.Context) interface{} {
 	var result m.Map
 	err = col.FindOne(context.TODO(), bson.D{{"username", form["username"]}}).Decode(&result)
 
+	var inserted *mongo.InsertOneResult
 	if m.IsEmptyMgo(err) {
 		hash, err := bcrypt.GenerateFromPassword([]byte(form["password"].(string)), 5)
 		m.HandlErr(tracerr.Wrap(err))
 		form["password"] = string(hash)
 
-		_, err = col.InsertOne(context.TODO(), form)
+		inserted, err = col.InsertOne(context.TODO(), form)
 		m.HandlErr(tracerr.Wrap(err))
 	} else {
 		m.HandlErr(errors.New("username is exists"))
 	}
 	ctx.StatusCode(201)
-	return m.Map{"message": "user created successfully", "success": 1}
+	return m.Map{"message": "user created successfully", "id": inserted.InsertedID}
 }
