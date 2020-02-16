@@ -4,16 +4,16 @@ import (
 	"github.com/kataras/iris/v12"
 	"io"
 	"minmin/app/constant"
-	"minmin/app/utils/app"
+	"minmin/app/utils/m"
 	"os"
 	"strings"
 	"time"
 )
 
 func UploadAction(ctx iris.Context) {
-	defer app.CoverErr(ctx)
+	defer m.CoverErr(ctx)
 	file, info, err := ctx.FormFile("file")
-	app.HandlErr(err)
+	m.HandlErr(err)
 	defer file.Close()
 	now := time.Now()
 	fname := strings.Join([]string{
@@ -21,11 +21,11 @@ func UploadAction(ctx iris.Context) {
 		info.Filename,
 	}, "_")
 	out, err := os.OpenFile("./public/uploads/"+fname, os.O_WRONLY|os.O_CREATE, 0666)
-	app.HandlErr(err)
+	m.HandlErr(err)
 	defer out.Close()
 	_, err = io.Copy(out, file)
-	app.HandlErr(err)
-	ctx.JSON(iris.Map{
+	m.HandlErr(err)
+	ctx.JSON(m.Map{
 		"filename": fname,
 	})
 	return

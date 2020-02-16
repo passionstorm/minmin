@@ -2,13 +2,11 @@ package bootstrap
 
 import (
 	"github.com/gorilla/securecookie"
-	"github.com/joho/godotenv"
 	"github.com/kataras/iris/v12"
 	"github.com/kataras/iris/v12/middleware/logger"
 	recover2 "github.com/kataras/iris/v12/middleware/recover"
 	"github.com/kataras/iris/v12/sessions"
 	"github.com/kataras/iris/v12/websocket"
-	"log"
 	"time"
 )
 
@@ -95,10 +93,8 @@ func (b *Rooter) Configure(cs ...Configurator) {
 //
 // Returns itself.
 func (b *Rooter) Bootstrap() *Rooter {
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Error loading .env file")
-	}
+	//err := godotenv.Load()
+	//m.HandlErr(tracerr.Wrap(err))
 	b.SetupViews("./app/views")
 	b.HandleDir("/", "spa/dist", iris.DirOptions{
 		IndexName: "/index.html",
@@ -116,6 +112,13 @@ func (b *Rooter) Bootstrap() *Rooter {
 	b.Use(logger.New())
 
 	return b
+}
+
+func NewApp() *Rooter {
+	t := New("Mintoot", "vohoangminhdn93@gmail.com")
+	//t.Logger().SetLevel("debug")
+	t.Bootstrap()
+	return t
 }
 
 // Listen starts the http server with the specified "addr".
