@@ -2,7 +2,9 @@ package actions
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
+	"fmt"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/kataras/iris/v12"
 	"github.com/ztrue/tracerr"
@@ -19,6 +21,28 @@ type AuthenAction struct {
 type ResponseResult struct {
 	Error  string `json:"error"`
 	Result string `json:"result"`
+}
+
+func (AuthenAction) GetProfile(ctx iris.Context) interface{} {
+	tokenStr := ctx.GetHeader("Authorization")
+	token, err := jwt.Parse(tokenStr, func(token *jwt.Token) (interface{}, error) {
+		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+			return nil, fmt.Errorf("Unexpected signing method")
+		}
+		return []byte("secret"), nil
+	})
+	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
+		result.Username = claims["username"].(string)
+		result.FirstName = claims["firstname"].(string)
+		result.LastName = claims["lastname"].(string)
+
+		json.NewEncoder(w).Encode(result)
+		return
+	} else {
+		res.Error = err.Error()
+		json.NewEncoder(w).Encode(res)
+		return
+	}
 }
 
 func (AuthenAction) PostLogin(ctx iris.Context) interface{} {

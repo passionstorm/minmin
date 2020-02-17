@@ -35,7 +35,7 @@ func TestAuthenAction_PostLogin(t *testing.T) {
 
 	var jsonStr = m.Map{
 		"username": "minhvh",
-		"password": "qwer123",
+		"password": "qwer1234",
 	}
 	req := e.POST("/api/login").WithJSON(jsonStr)
 	fmt.Println(req.Expect().Body())
