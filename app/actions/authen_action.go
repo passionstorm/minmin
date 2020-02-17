@@ -2,7 +2,6 @@ package actions
 
 import (
 	"context"
-	"encoding/json"
 	"errors"
 	"fmt"
 	"github.com/dgrijalva/jwt-go"
@@ -23,7 +22,7 @@ type ResponseResult struct {
 	Result string `json:"result"`
 }
 
-func (AuthenAction) GetProfile(ctx iris.Context) interface{} {
+func (AuthenAction) GetInfo(ctx iris.Context) interface{} {
 	tokenStr := ctx.GetHeader("Authorization")
 	token, err := jwt.Parse(tokenStr, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
@@ -31,18 +30,13 @@ func (AuthenAction) GetProfile(ctx iris.Context) interface{} {
 		}
 		return []byte("secret"), nil
 	})
-	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
-		result.Username = claims["username"].(string)
-		result.FirstName = claims["firstname"].(string)
-		result.LastName = claims["lastname"].(string)
 
-		json.NewEncoder(w).Encode(result)
-		return
-	} else {
-		res.Error = err.Error()
-		json.NewEncoder(w).Encode(res)
-		return
+	claims, ok := token.Claims.(jwt.MapClaims)
+	if !ok || !token.Valid{
+		m.HandlErr(tracerr.Wrap(err))
 	}
+
+	return claims
 }
 
 func (AuthenAction) PostLogin(ctx iris.Context) interface{} {

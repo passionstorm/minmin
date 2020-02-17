@@ -9,11 +9,15 @@ import (
 	"testing"
 )
 
-func TestAuthenAction_PostRegister(t *testing.T) {
-	app := bootstrap.NewApp()
+var app *bootstrap.Rooter
+
+func init()  {
+	app = bootstrap.NewApp()
 	root := mvc.New(app.Party("/api"))
 	root.Handle(new(AuthenAction))
+}
 
+func TestAuthenAction_PostRegister(t *testing.T) {
 	e := httptest.New(t, app.Application)
 
 	var jsonStr = m.Map{
@@ -27,10 +31,6 @@ func TestAuthenAction_PostRegister(t *testing.T) {
 }
 
 func TestAuthenAction_PostLogin(t *testing.T) {
-	app := bootstrap.NewApp()
-	root := mvc.New(app.Party("/api"))
-	root.Handle(new(AuthenAction))
-
 	e := httptest.New(t, app.Application)
 
 	var jsonStr = m.Map{
@@ -40,4 +40,10 @@ func TestAuthenAction_PostLogin(t *testing.T) {
 	req := e.POST("/api/login").WithJSON(jsonStr)
 	fmt.Println(req.Expect().Body())
 
+}
+
+func TestAuthenAction_GetInfo(t *testing.T) {
+	e := httptest.New(t, app.Application)
+	req := e.GET("/api/info").WithHeader("Authorization", `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdG5hbWUiOiJtaW5oIiwibGFzdG5hbWUiOiJtaW5oIiwidXNlcm5hbWUiOiJtaW5odmgifQ.hZMkEUp3pjVNPy29Mft0Zj_xupuwIKekYE5junS9Uv4`)
+	fmt.Println(req.Expect().Body())
 }
