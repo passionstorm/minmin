@@ -2,16 +2,16 @@ package m
 
 import (
 	"errors"
-	"github.com/kataras/iris/v12"
+	"github.com/labstack/echo/v4"
 	"github.com/ztrue/tracerr"
 	"log"
+	"net/http"
 )
 
-func CoverErr(ctx iris.Context) {
+func CoverErr(c echo.Context) {
 	if r := recover(); r != nil {
-		ctx.StatusCode(400)
-		ctx.JSON(iris.Map{
-			"error": iris.Map{
+		c.JSON(http.StatusBadRequest, Map{
+			"error": Map{
 				"message": r,
 			},
 		})

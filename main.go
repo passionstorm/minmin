@@ -1,23 +1,20 @@
 package main
 
 import (
-	"github.com/kataras/iris/v12"
+	"minmin/app/actions"
 	"minmin/app/bootstrap"
-	"minmin/app/routes"
 )
 
+func init() {
+	app := bootstrap.NewApp()
+	app.ImportRoutes(actions.AuthenAction{})
+	app.Debug = true
+	app.Logger.Print(app.Routes())
+	app.Listen(":9999")
+
+}
 
 func main() {
-	app := bootstrap.NewApp()
-	app.Application.Configure(
-		routes.NewApiRoute,
-		routes.NewWebRoute,
-	)
-	app.Listen(
-		":9000",
-		// Ignores err server closed log when CTRL/CMD+C pressed.
-		//iris.WithoutServerError(iris.ErrServerClosed),
-		// Enables faster json serialization and more.
-		iris.WithOptimizations,
-	)
+
+
 }
