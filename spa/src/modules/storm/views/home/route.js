@@ -7,3 +7,4 @@ export default [
     component: () => import('./home'),
   },
 ]
+

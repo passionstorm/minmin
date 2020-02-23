@@ -35,7 +35,7 @@ func (e *Rooter) ImportRoutes(cs ...actions.BaseAction) {
 }
 
 func (e *Rooter) errorHandler(err error, c echo.Context) {
-	tracerr.Print(err)
+	tracerr.PrintSourceColor(err)
 	e.DefaultHTTPErrorHandler(err, c)
 }
 
@@ -54,12 +54,18 @@ func (e *Rooter) Bootstrap() *Rooter {
 	e.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{
 		Format: "${time_rfc3339}[${method}][${status}] ${uri} (${latency_human})\n",
 	}))
-	e.Use(middleware.Recover())
+	e.Use(middleware.RecoverWithConfig(middleware.RecoverConfig{
+		StackSize:  1 << 10, // 1 KB
+	}))
 	//e.Use(middleware.Static(StaticAssets))
 	e.HTTPErrorHandler = e.errorHandler
 
+
 	return e
 }
+
+
+
 
 func NewApp() *Rooter {
 	t := New("Mintoot", "vohoangminhdn93@gmail.com")

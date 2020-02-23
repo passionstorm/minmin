@@ -51,6 +51,12 @@ module.exports = {
       filename: 'homepage.html',
       // chunks: ['chunk-vendors', 'chunk-common', 'index'],
     },
+    mogodb:{
+      entry: './src/pages/mgodb/main.js',
+      template: './public/index.html',
+      // output as dist/index.html
+      filename: 'mgopage.html',
+    }
   },
   css: {
     loaderOptions: {

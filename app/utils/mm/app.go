@@ -1,4 +1,4 @@
-package m
+package mm
 
 import (
 	"errors"
@@ -33,6 +33,15 @@ func Err(err error) {
 	if err != nil {
 		log.Println(err)
 	}
+}
+
+func FindStr(slice []string, val string) (int, bool) {
+	for i, item := range slice {
+		if item == val {
+			return i, true
+		}
+	}
+	return -1, false
 }
 
 func HandlErr(err error, newMsg ...string) {

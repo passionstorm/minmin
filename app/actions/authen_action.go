@@ -5,22 +5,24 @@ import (
 	"fmt"
 	"github.com/labstack/echo/v4"
 	"github.com/ztrue/tracerr"
-	"minmin/app/utils/m"
+	"minmin/app/utils/mm"
+	"net/http"
 )
 
 type AuthenAction struct {
-	BaseAction
 }
+
 
 func (AuthenAction) Routes(e *echo.Echo) {
 	e.GET("/", func(c echo.Context) error {
 		fmt.Println(e.Routes())
 
-		return c.String(200, "ok")
+		return c.String(http.StatusOK, "ok")
 	})
 	e.GET("/login", postLogin)
 	//e.POST("/register", postRegister)
 }
+
 
 //func getInfo(c echo.Context) error {
 //	tokenStr := c.ghh("Authorization")
@@ -40,15 +42,15 @@ func (AuthenAction) Routes(e *echo.Echo) {
 //}
 
 func postLogin(c echo.Context) error {
-	defer m.CoverErr(c)
+	defer mm.CoverErr(c)
 	//db := db.GetDB()
 	//col := db.Collection("users")
 	_, err := c.FormParams()
-	m.HandlErr(tracerr.Wrap(err))
+	mm.HandlErr(tracerr.Wrap(err))
 	byt := []byte(`"num":6.13,"strs":["a","b"]}`)
-	var dat m.Map
+	var dat mm.Map
 	err = json.Unmarshal(byt, dat)
-	m.HandlErr(tracerr.Wrap(err))
+	mm.HandlErr(tracerr.Wrap(err))
 	return nil
 	//var result m.Map
 	//err = col.FindOne(context.TODO(), bson.D{{"username", form["username"]}}).Decode(&result)
