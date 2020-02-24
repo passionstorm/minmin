@@ -27,7 +27,7 @@ func (m mongoAction) Routes(c *echo.Echo) {
 	g.POST("/:collect/new", m.addNew)
 	g.GET("/:collect/:id", m.fetchId)
 	g.GET("/:collect/:id/", m.fetchId)
-	g.GET("/:collect/:id/del", m.deleteById)
+	g.DELETE("/:collect/:id", m.deleteById)
 	//g.POST("/:collect/:id/edit", m.edit)
 
 }

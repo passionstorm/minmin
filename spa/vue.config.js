@@ -61,7 +61,7 @@ module.exports = {
   css: {
     loaderOptions: {
       scss: {
-        prependData: `@import "./assets/scss/app.scss";`
+        // prependData: `@import "assets/scss/app.scss";`
       }
     }
   },
