@@ -4,6 +4,8 @@ go 1.13
 
 require (
 	github.com/DATA-DOG/go-sqlmock v1.3.3 // indirect
+	github.com/chromedp/cdproto v0.0.0-20200209033844-7e00b02ea7d2
+	github.com/chromedp/chromedp v0.5.3
 	github.com/ericlagergren/decimal v0.0.0-20191206042408-88212e6cfca9 // indirect
 	github.com/friendsofgo/errors v0.9.2
 	github.com/go-sql-driver/mysql v1.4.1
@@ -24,7 +26,6 @@ require (
 	github.com/volatiletech/null v8.0.0+incompatible
 	github.com/volatiletech/sqlboiler v3.6.1+incompatible
 	github.com/ztrue/tracerr v0.3.0
-	go.mongodb.org/mongo-driver v1.3.0
 	golang.org/x/crypto v0.0.0-20200214034016-1d94cc7ab1c6 // indirect
 	golang.org/x/net v0.0.0-20200202094626-16171245cfb2
 	golang.org/x/sys v0.0.0-20200217220822-9197077df867 // indirect
