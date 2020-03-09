@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"github.com/chromedp/cdproto/cdp"
 	"github.com/chromedp/cdproto/network"
+	"github.com/chromedp/cdproto/runtime"
 	"github.com/chromedp/chromedp"
 	"log"
 	"time"
@@ -47,24 +48,53 @@ func GetUrl(url string) chromedp.Tasks {
 		}),
 		// navigate to site
 		chromedp.Navigate(url),
+		chromedp.ActionFunc(func(context.Context) error {
+			log.Println("Access URL: " + url)
+			return nil
+		}),
 	}
-
 	return tasks
 }
 
 func main() {
-	ctx, cancel := chromedp.NewContext(context.Background())
+	ctx, cancel := chromedp.NewContext(
+		context.Background(),
+		chromedp.WithLogf(log.Printf),
+	)
 	defer cancel()
-	err := chromedp.Run(ctx, GetUrl("https://www.facebook.com/groups/"))
+	err := chromedp.Run(ctx, GetUrl("https://m.facebook.com/groups/"))
 	if err != nil {
 		log.Fatal(err)
 	}
-	var nodes []*cdp.Node
-	//if err := chromedp.Run(ctx, chromedp.WaitVisible("._2yau")); err != nil {
-	//	log.Fatal(fmt.Errorf("could not get section: %v", err))
-	//}
-	if err := chromedp.Run(ctx, chromedp.Nodes("._2yau", &nodes)); err != nil {
-		log.Fatal(fmt.Errorf("could not get section: %v", err))
-	}
-	fmt.Println(nodes)
+
+	chromedp.Run(ctx, chromedp.Tasks{
+		chromedp.ActionFunc(func(ctx context.Context) error {
+			_, exp, err := runtime.Evaluate(waitLoaded).Do(ctx)
+			if err != nil {
+				return err
+			}
+			if exp != nil {
+				return exp
+			}
+			log.Println("Page Ready!")
+			return nil
+		}),
+		chromedp.ActionFunc(func(context.Context) error {
+			var nodes []*cdp.Node
+			runtime.Evaluate(`document.querySelectorAll('a._7hkg');`)
+			log.Println(nodes)
+			return nil
+		}),
+	})
+
 }
+
+const waitLoaded  = `(function(){
+    var tId = setInterval(function() {
+        if (document.readyState == "complete") onComplete()
+    }, 11);
+    function onComplete(){
+        clearInterval(tId);    
+        alert("loaded!");    
+    };
+})()`
